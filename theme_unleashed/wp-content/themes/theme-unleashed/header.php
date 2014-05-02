@@ -23,6 +23,9 @@
     
         <div class="wrapper">
            <header>
+            <h1>
+                <?php echo get_bloginfo('title');?>
+            </h1>
                  
             </header><!-- .header-->
             <div class="middle">
