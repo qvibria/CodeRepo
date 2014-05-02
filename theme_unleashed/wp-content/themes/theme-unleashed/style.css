@@ -1,0 +1,449 @@
+/*
+Theme Name:  Супер тема
+Theme URI: 
+Description: Т
+Version: 1.0.0
+Author: imilienko
+Author URI:
+*/
+@font-face {
+    font-family: 'sans_narrow_regular';
+    src: url('fonts/sans_narrow_regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+	font-family: 'din_pro_regular';
+	src:url('fonts/dinproregular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+	font-family: 'din_pro_light';
+	src:url('fonts/dinprolight.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+	font-family: 'din_pro_bold';
+	src:url('fonts/dinprobold.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+	font-family: 'pts_regular';
+	src:url('fonts/PTS55F.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+	font-family: 'pts75f';
+	src:url('fonts/PTS75F.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+	font-family: 'pts76f';
+	src:url('fonts/PTS56F.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+html {
+	height: 100%;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+	display: block;
+}
+
+/* Eric Meyer's CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+html,
+body {
+  height: 100%;
+}
+
+label{
+    align: left;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+/*
+  Override the default (display: inline) for
+  browsers that do not recognize HTML5 tags.
+
+  IE8 (and lower) requires a shiv:
+  http://ejohn.org/blog/html5-shiv
+*/
+  display: block;
+}
+
+b,
+strong {
+/*
+  Makes browsers agree.
+  IE + Opera = font-weight: bold.
+  Gecko + WebKit = font-weight: bolder.
+*/
+  font-weight: bold;
+}
+
+img {
+  color: transparent;
+  font-size: 0;
+  vertical-align: middle;
+/*
+  For IE.
+  http://css-tricks.com/ie-fix-bicubic-scaling-for-images
+*/
+  -ms-interpolation-mode: bicubic;
+}
+
+li {
+/*
+  For IE6 + IE7.
+*/
+  display: list-item;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td,
+caption {
+  font-weight: normal;
+  vertical-align: top;
+  text-align: left;
+}
+
+q {
+  quotes: none;
+}
+
+q:before,
+q:after {
+  content: '';
+  content: none;
+}
+
+sub,
+sup,
+small {
+  font-size: 75%;
+}
+
+sub,
+sup {
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+svg {
+/*
+  For IE9.
+*/
+  overflow: hidden;
+}
+body {
+	
+	background-attachment: fixed;
+	font: 12px/18px Arial, sans-serif;
+	width: 100%;
+	height: 100%;
+}
+
+a {
+	color:#303030;
+	text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+
+}
+p {
+	margin: 0 0 18px
+}
+img {
+	border: none;
+}
+input {
+	vertical-align: middle;
+}
+h1{font-size: 32px;font-weight: lighter;font-stretch:condensed; text-transform: uppercase;color:#301910;padding-bottom: 10px;}
+h2{font-size: 30px;font-weight: lighter;font-stretch:condensed; text-transform: uppercase;color:#301910;padding-bottom: 10px;}
+h3{font-size: 28px;font-weight: lighter;font-stretch:condensed; text-transform: uppercase;color:#301910;padding-bottom: 10px;}
+h4{font-size: 26px;font-weight: lighter;font-stretch:condensed; text-transform: uppercase;color:#301910;padding-bottom: 10px;}
+h5{font-size: 24px;font-weight: lighter;font-stretch:condensed; text-transform: uppercase;color:#301910;padding-bottom: 10px;}
+h6{font-size: 20px;font-weight: lighter;font-stretch:condensed; text-transform: uppercase;color:#301910;padding-bottom: 10px;}
+
+
+header.header{position: relative;min-height: 225px;}
+
+.logo-header {position: absolute;z-index: 1010;width: 305px;height: 159px;top:70px;margin-left: 105px; }
+.logo-header img{padding: 19px;z-index: 1200;}
+
+
+
+div.box-header {
+position: relative;
+padding-right: 60px;
+top: 50px;
+height: 150px;
+width: 580px;
+float: right;
+z-index: 1099;
+}
+
+/* Top menu
+-----------------------------------------------------------------------------*/
+.top-menu-header{position: absolute;z-index: 1100;width: 887px;height: 39px;left: 55px;}
+#nav li ul li{background: #fff;}
+/* Menu Item text color */
+#nav li a, 
+#nav li a:hover, 
+#nav li ul li,
+#nav li ul li a,
+#nav li ul li a:hover  {
+}
+
+/* Menu Item background color on hover */
+#nav li a:hover, 
+#nav li ul li a:hover  {
+}
+
+/* Text Shadow */
+#nav li a, 
+#nav li a:hover, 
+#nav li ul li a:hover  {
+}
+
+/*=====================================================================
+	Color Scheme End
+====================*/
+
+#menu_div{
+clear: both;
+position: relative;
+top: 0;
+left: 0;
+} /* Free space to top specialy for menu */
+
+#navigation, #menu_div {
+width: 100%;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+#menu_div, #navigation, #menu, #nav{
+height: 39px; /* menu height */
+}
+
+
+
+
+
+#nav{
+width: 887px;
+margin:0;
+padding:0;
+position: relative;
+font-family: 'Arial', Helvetica, sans-serif;
+}
+
+#nav li a,#nav li {
+float:right;
+}
+
+#nav li {
+list-style:none;
+position:relative;
+}
+
+#nav li a {
+line-height: 39px;
+padding:0 15px;
+text-decoration:none;
+margin:0;
+font-size:12px;
+font-weight:700;
+text-transform:uppercase;
+}
+
+/*====================
+	Submenu 
+=====================*/
+#nav li ul {
+display:none;
+position:absolute;
+left:0;
+top:100%;
+padding:0;
+margin:0;
+} /* hide submenu */
+
+#nav li:hover > ul {
+display:block;
+} /* show submenu on hover */
+
+#nav li ul li,#nav li ul li a {
+float:none;
+height: 35px; /* submenu item height */
+min-width: 150px; /* submenu item minimal width */
+line-height: 35px;
+border-right: 0;
+text-shadow: none;
+display:block;
+font-size:13px;
+font-weight:400;
+text-transform:inherit;
+} /* Submenu item */
+
+#nav li ul li {
+_display:inline; /* for IE */
+}
+
+/* == 12. Sub-Sub Menu == */
+#nav li ul li ul {
+display:none;
+}
+
+#nav li ul li:hover ul {
+left:100%;
+top:0;
+}
+/*========================
+		Transitions
+========================*/
+
+#nav li a:hover,
+#nav li ul li a:hover  {
+-webkit-transition-property:color, background; 
+-webkit-transition-duration: 0.5s, 0.5s; 
+-webkit-transition-timing-function: linear, ease-out;
+}
+
+.searchfield:focus,
+.searchfield:not(:focus){
+-webkit-transition-property:width; 
+-webkit-transition-duration: 0.5s, 0.5s; 
+-webkit-transition-timing-function: linear, ease-out;
+}
+
+#menu_div:hover,
+#navigation:hover,
+#nav li ul a, 
+#menu_div,
+#navigation, 
+#nav li a, 
+#menu_div:not(:hover), 
+#navigation:not(:hover)
+{
+-webkit-transition-property:opacity; 
+-webkit-transition-duration: 0.5s, 0.5s; /* duration in seconds */
+-webkit-transition-timing-function: linear, ease-out;
+} /* Menu transparency animation */
+
+/* Big Slider
+=========================================*/
+
+.header .nivo-directionNav a {
+	width:30px;
+	height:30px;
+	background:url(img/arrow.png) no-repeat;
+	text-indent:-9999px;
+	border:0;
+}
+.header  a.nivo-nextNav {
+	background-position:-30px 0;
+	right:50px;
+}
+.header  a.nivo-prevNav {
+	left:50px;
+}
+
+.header .nivo-caption {
+position: absolute;
+background: none;
+left: 600px;
+bottom: 230px;
+color: #1e2637;
+width: 370px;
+z-index: 89;
+height: 35px;
+}
+.header .nivo-caption h2{text-transform: uppercase;font-size: 51px;line-height:45px;font-family:'pt_sans_narrow_bold';-moz-text-shadow:0 0 5px rgba(255,255,255,0.3); -webkit-text-shadow:0 0 5px rgba(255,255,255,0.3); text-shadow:0 0 5px rgba(255,255,255,0.3);}
+.header .nivo-caption h3{text-transform: uppercase;font-size: 40px;line-height:45px;font-family:'pt_sans_narrow_bold';-moz-text-shadow:0 0 5px rgba(255,255,255,0.3); -webkit-text-shadow:0 0 5px rgba(255,255,255,0.3); text-shadow:0 0 5px rgba(255,255,255,0.3);}
+.header .nivo-caption p {padding:0;text-transform: none;}
+.header .nivo-caption p p{font-family: 'sans_narrow_regular';font-size:19px;line-height:16px;padding-top:10px;color:#000;}
+.header .slider-wrapper{ border-bottom: 1px solid white;}
+.content-top-shadow {background: url(img/bg_line.png) no-repeat 50% 50%;height: 19px;width: 100%;padding-bottom: 10px;}
+/* Big Slider End
+=========================================*/
+
+/* Middle
+-----------------------------------------------------------------------------*/
