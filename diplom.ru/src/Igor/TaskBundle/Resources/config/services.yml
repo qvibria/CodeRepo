@@ -1,0 +1,4 @@
+services:
+#    igor_task.example:
+#        class: Igor\TaskBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
