@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+
+	<ui:define name="content">
+		<h:outputScript library="js" name="DatesDisabler.js"></h:outputScript>
+		<script type="text/javascript">
+			DatesDisabler.disabledDates = [ "3-15-2015", "3-25-2015" ];
+		</script>
+		<h:form>
+			<p:calendar id="inline" value="#{calendarBean.date1}" mode="inline"
+				beforeShowDay="DatesDisabler.disableDatesBeforeRender" />
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>
+</html>
