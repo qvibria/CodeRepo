@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="/WEB-INF/templates/BasicTemplate.xhtml">
+
+    <ui:define name="content">
+        <h:form>
+            <h:outputScript library="js" name="DatesDisabler.js"></h:outputScript>
+            <p:remoteCommand name="updateCalendar" update="parent"/>
+            <h:panelGroup id="parent">
+
+                <script type="text/javascript">
+                    disabledDates = #{calendarBean.formatedDisabledDates()};
+
+                </script>
+
+                <p:calendar id="inline" value="#{calendarBean.date1}" mode="inline"
+                            disabledWeekends="true"
+
+                            beforeShowDay="DatesDisabler.disableDatesBeforeRender">
+                    <f:ajax event="dateSelect" listener="#{calendarBean.onDateSelect}"/>
+
+                </p:calendar>
+
+                <script type="text/javascript">
+                    jQuery(document).ready(
+                            function(){
+                                jQuery(".ui-datepicker a").click(function(e){updateCalendar();});
+                            }
+                    )       ;
+                </script>
+
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
+</html>
