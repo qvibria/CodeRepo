@@ -4,7 +4,10 @@
 	<groupId>com.imilienko</groupId>
 	<artifactId>project-management-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+    <modules>
+        <module>login</module>
+    </modules>
+    <packaging>pom</packaging>
 	<name>PMS</name>
 	<dependencies>
 		<dependency>

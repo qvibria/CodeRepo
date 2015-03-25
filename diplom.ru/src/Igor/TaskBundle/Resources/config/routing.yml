@@ -1,7 +1,0 @@
-igor_task_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: IgorTaskBundle:Default:index }
-
-add_task:
-    path: /add
-    defaults: {  _controller: IgorTaskBundle:Default:add }
