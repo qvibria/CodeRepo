@@ -12,8 +12,18 @@
  * @author igor
  */
 class Controller {
-    public $model;
-    public $view;
+    /**
+     *
+     * @var Model 
+     */
+    protected $model;
+    /**
+     *
+     * @var View
+     */
+    protected $view;
+    
+  
     
     function __construct()
     {
@@ -22,5 +32,10 @@ class Controller {
     
     function action_index()
     {
+    }
+    
+    public function redirectTo($page = ""){
+        $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+        header('Location:' . $host . $page);
     }
 }

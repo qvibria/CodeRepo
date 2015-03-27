@@ -12,17 +12,22 @@
  * @author igor
  */
 class View {
-    public $template_view; // здесь можно указать общий вид по умолчанию.
+    public $template_view = "application/core/templates/basic_template.php"; // здесь можно указать общий вид по умолчанию.
     
     function generate($content_view, $template_view, $data = null)
     {
-        /*
+        
         if(is_array($data)) {
             // преобразуем элементы массива в переменные
             extract($data);
         }
-        */
         
-        include 'application/views/'.$template_view;
+        if(file_exists($template_view)){
+            include $template_view;
+        } else {
+            include $this->template_view;
+        }
     }
+    
+    public abstract function generateView($data = array());
 }

@@ -7,12 +7,10 @@
  */
 class Route {
 
-    static function hw(){
-        echo "hello world";
-    }
+   
     static function start() {
         // контроллер и действие по умолчанию
-        $module_name = 'Main';
+        $module_name = 'login';
         $action_name = 'index';
         
         $routes = explode('/', $_SERVER['REQUEST_URI']);

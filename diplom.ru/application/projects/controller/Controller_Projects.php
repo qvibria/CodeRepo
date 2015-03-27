@@ -7,12 +7,18 @@
  */
 
 /**
- * Description of Model
+ * Description of Controller
  *
  * @author igor
  */
-class Model {
-     public function get_data()
+class Controller_Projects extends Controller {
+    
+    
+    public function action_Index()
     {
+        $this->view = new View_Projects_List();
+        $this->view->generateView();
     }
+    
+ 
 }
