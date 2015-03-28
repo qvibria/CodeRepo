@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/igor/localhost/diplom.ru/index.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/templates/footer.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/bootstrap.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/templates/basic_template.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/bin/app.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/Controller.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/login/view/View_Login.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/login/controller/Controller_Login.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/Model.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/templates/header.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/login/view/templates/login_form.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/login/model/Model_Login.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/View.php</file>
+            <file>file:/home/igor/localhost/diplom.ru/application/core/Route.php</file>
+        </group>
+    </open-files>
+</project-private>

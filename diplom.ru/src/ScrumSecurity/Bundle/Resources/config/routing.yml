@@ -1,3 +1,0 @@
-scrum_security_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ScrumSecurityBundle:Default:index }
