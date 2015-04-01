@@ -20,5 +20,7 @@ class Controller_Projects extends Controller {
         $this->view->generateView();
     }
     
+    
+    
  
 }
