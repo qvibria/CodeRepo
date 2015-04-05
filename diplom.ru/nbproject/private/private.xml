@@ -2,23 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/core/templates/footer.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/core/View.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/core/Controller.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/forms/templates/form_template.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/login/controller/Controller_Login.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/bootstrap.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/projects/view/View_Projects_List.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/forms/fields/TextField.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/login/view/templates/login_form.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/forms/Form.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/projects/controller/Controller_Projects.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/core/Route.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/forms/IFormHandler.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/forms/Field.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/login/view/View_Login.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/diplom.ru/application/forms/FormRenderer.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
