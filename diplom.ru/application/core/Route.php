@@ -7,12 +7,15 @@
  */
 class Route {
 
-    static function hw(){
-        echo "hello world";
-    }
-    static function start() {
+    /**
+     *
+     * @var ISecurity 
+     */
+    protected $security;
+   
+    public function start() {
         // контроллер и действие по умолчанию
-        $module_name = 'Main';
+        $module_name = 'login';
         $action_name = 'index';
         
         $routes = explode('/', $_SERVER['REQUEST_URI']);
@@ -26,6 +29,8 @@ class Route {
         if (!empty($routes[2])) {
             $action_name = $routes[2];
         }
+        
+        
 
         // добавляем префиксы
          $model_name = 'Model_' . ucfirst($module_name);
@@ -50,7 +55,7 @@ class Route {
               правильно было бы кинуть здесь исключение,
               но для упрощения сразу сделаем редирект на страницу 404
              */
-            Route::ErrorPage404();
+            $this->ErrorPage404();
         }
 
         // создаем контроллер
@@ -62,11 +67,11 @@ class Route {
             $controller->$action();
         } else {
             // здесь также разумнее было бы кинуть исключение
-            Route::ErrorPage404();
+            $this->ErrorPage404();
         }
     }
 
-    function ErrorPage404() {
+    public function ErrorPage404() {
         $host = 'http://' . $_SERVER['HTTP_HOST'] . '/';
         header('HTTP/1.1 404 Not Found');
         header("Status: 404 Not Found");

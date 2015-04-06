@@ -11,18 +11,42 @@
  *
  * @author igor
  */
-class View {
-    public $template_view; // здесь можно указать общий вид по умолчанию.
+abstract class View {
+    public $template_view = "application/core/templates/basic_template.php"; // здесь можно указать общий вид по умолчанию.
+    /**
+     *
+     * @var SplDoublyLinkedList
+     */
+    public $forms;
     
     function generate($content_view, $template_view, $data = null)
     {
-        /*
+        
         if(is_array($data)) {
             // преобразуем элементы массива в переменные
             extract($data);
         }
-        */
         
-        include 'application/views/'.$template_view;
+        if(file_exists($template_view)){
+            include $template_view;
+        } else {
+            include $this->template_view;
+        }
     }
+    
+    public abstract function generateView($data = array());
+    
+    function getForms() {
+        return $this->forms;
+    }
+
+    /**
+     * 
+     * @param Form $form
+     */
+    public function addForm($form){
+        $this->forms->push($form);
+    }
+
+
 }
