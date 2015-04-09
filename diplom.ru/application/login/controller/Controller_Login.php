@@ -21,15 +21,14 @@ class Controller_Login extends Controller {
 
     public function action_Index() {
         if (isset($_POST['username']) && isset($_POST['password'])) {
-            $username = mysqli_real_escape_string($_POST['username']);
-            $password = mysqli_real_escape_string($_POST['password']);
+            $username = ($_POST['username']);
+            $password = ($_POST['password']);
 
             if (!empty($password) && !empty($username)) {
                 $user = $this->getUser($username, $password);
                 if ($user === false) {
                     $this->renderDefault();
-                } 
-                else {
+                } else {
                     $this->redirectTo("projects");
                 }
             } else {
@@ -49,7 +48,8 @@ class Controller_Login extends Controller {
 
     protected function getUser($username, $password) {
         if ($username == "user1" && $password == 'user1') {
-            return new User($username, $password);
+//            return new User($username, $password);
+            return true;
         }
         return false;
     }

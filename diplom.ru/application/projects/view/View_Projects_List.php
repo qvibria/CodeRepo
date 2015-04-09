@@ -5,11 +5,11 @@
  *
  * @author igor
  */
-class View_Projects extends View {
+class View_Projects_List extends View {
     
     public $content_view = "templates/projectsList.php";
     
-    public function generateView($data){
+    public function generateView($data = array()){
         parent::generate($this->content_view, $template_view = "", $data);
     }
 

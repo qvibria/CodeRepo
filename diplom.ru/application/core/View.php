@@ -11,8 +11,13 @@
  *
  * @author igor
  */
-class View {
+abstract class View {
     public $template_view = "application/core/templates/basic_template.php"; // здесь можно указать общий вид по умолчанию.
+    /**
+     *
+     * @var SplDoublyLinkedList
+     */
+    public $forms;
     
     function generate($content_view, $template_view, $data = null)
     {
@@ -30,4 +35,18 @@ class View {
     }
     
     public abstract function generateView($data = array());
+    
+    function getForms() {
+        return $this->forms;
+    }
+
+    /**
+     * 
+     * @param Form $form
+     */
+    public function addForm($form){
+        $this->forms->push($form);
+    }
+
+
 }
