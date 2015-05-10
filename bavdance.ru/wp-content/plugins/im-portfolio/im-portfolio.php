@@ -120,12 +120,6 @@ $talan = new Talan_Portfolio();
 
 $talan->add_metaboxes( $metaboxes );
 
-$register = new Talan_Script_And_Style_Register();
-$register->add_scripts(Talan_Portfolio_Constants::$styles_scripts);
-
-
-
-
 
 function tl_resize($url, $width, $height){
 	$size = getimagesize($url);
