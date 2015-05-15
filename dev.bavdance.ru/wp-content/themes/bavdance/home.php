@@ -212,30 +212,32 @@ get_header();
             ),
                 )
         );
-        
-        if( $additional_services_query->have_posts()):
-        ?>
-        <div class="section-content">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th style="width: 20%;"></th>
-                        <th></th>
-                        <th width="150"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php while($additional_services_query->have_posts()): $additional_services_query->the_post();?>
-                    <tr>
-                        <td><?php the_title() ?></td>
-                        <td><?php the_content(); ?></td>
-                        <td class="text-extra"><?php echo get_post_meta(get_the_ID(), 'old_rice',true); ?> </td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
-        </div>
-        <?php 
+
+        if ($additional_services_query->have_posts()):
+            ?>
+            <div class="section-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;"></th>
+                            <th></th>
+                            <th width="150"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($additional_services_query->have_posts()): $additional_services_query->the_post(); ?>
+                            <tr>
+                                <td><?php the_title() ?></td>
+                                <td><?php the_content(); ?></td>
+                                <td class="text-extra">
+                                    от <?php echo get_post_meta(get_the_ID(), 'old_price', true); ?> рублей
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
+            <?php
         endif;
         ?>
     </div>
@@ -255,209 +257,137 @@ get_header();
         <div class="section-header">
             <h2 class="text-center">Портфолио</h2>
         </div>
-        <div class="section-content">
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
+        <?php
+        $pf_videos = new WP_Query(
+                array(
+            'post_type' => 'pf_video',
+            'posts_per_page' => -1,
+            'orderby' => 'post_date',
+            'order' => 'ASC',
+                )
+        );
+
+        if ($pf_videos->have_posts()):
+            ?>
+
+            <div class="section-content">
+                <?php while ($pf_videos->have_posts()): ?>
+                    <div class="row">
+                        <?php
+                        for ($i = 0; $i < 3; $i++) {
+                            $pf_videos->the_post();
+                            ?>
+                            <div class="col-xs-4">
+                                <div class="block">   
+                                    <div class="block-img">
+                                        <?php
+                                        $link = get_post_meta(get_the_ID(), 'video_link', true);
+                                        $link = str_replace("watch?v=", "embed/", $link);
+                                        ?>
+                                        <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>"  alt="" class="img-responsive"/>
+                                        <a class="circle" data-toggle="modal" data-target="#video-modal">
+                                            <i class="fa fa-video-camera"></i>
+                                        </a>
+                                        <form>
+                                            <input type="hidden" class="link_video" value="<?php echo $link; ?>"
+
+                                        </form>
+                                    </div>   
+                                    <p><?php the_content(); ?></p>                      
+                                </div>
+                            </div>
+                        <?php } ?>
+
                     </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
+
+                <?php endwhile; ?>
+
+
             </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-                <div class="col-xs-4">
-                    <div class="block">   
-                        <div class="block-img">
-                            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" height="1067" width="1600" alt="" class="img-responsive">
-                            <a class="circle">
-                                <i class="fa fa-video-camera"></i>
-                            </a>
-                        </div>   
-                        <p>Конец весны сулит прекрасное настроение, а у нас скидки на постановку танцев...</p>                      
-                    </div>
-                </div>
-            </div>
-        </div>
+            <?php
+        endif;
+        ?>
     </div>
-</section>
-<section class="bg" id="reviews">
-    <div class="container-wd">
-        <div class="section-header">
-            <h2 class="text-center">Отзывы</h2>
-        </div>
-        <div class="section-content">
+    <div class="modal fade about" id="video-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog " style="top:20px">
 
-            <div id="carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="item active">
-                        <div class="media">
-                            <div class="media-img">
-                                <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" class="img-responsive">
-                            </div>
-                            <div class="media-body">
-                                <h4>Андрей и Светлана</h4>
-                                <p>Волшебно!!! Не ожидала, что можно стать мастерами за столь короткий срок. Спасибо Вам, это было не забываемо!</p>
-                            </div>  
-                        </div>
-                        <div class="carousel-caption">
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="media">
-                            <div class="media-img">
-                                <img src="" class="img-responsive">
-                            </div>
-                            <div class="media-body">
-                                <h4>Стас и Анна</h4>
-                                <p>Спасибо большое за прекрасный танец!</p>
-                            </div>  
-                        </div>
-                        <div class="carousel-caption">
-                        </div>
-                    </div>
-                </div>
-                <ol class="carousel-indicators">
-                    <li data-target="#carousel" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel" data-slide-to="1"></li>
-                    <li data-target="#carousel" data-slide-to="2"></li>
-                    <li data-target="#carousel" data-slide-to="3"></li>
-                    <li data-target="#carousel" data-slide-to="4"></li>
-                    <li data-target="#carousel" data-slide-to="5"></li>
-                </ol>
-                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                    <span class="fa fa-chevron-left"></span>
-                </a>
-                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                    <span class="fa fa-chevron-right"></span>
-                </a>
-            </div>
-
-            <div class="text-center m-t-30">
-                <a href="#" class="btn btn-blue">Остальные отзывы в Вконтакте <i class="fa fa-angle-double-right"></i></a>
-            </div>
+            <iframe id="video_iframe" src="#" width="100%" height="400">
+            </iframe>
 
         </div>
     </div>
+    <script type="text/javascript">
+        jQuery("a.circle").click(function (e) {
+            var parent = jQuery(this).parent();
+            var link = parent.find(".link_video").val();
+
+            console.log(link);
+            jQuery("#video_iframe").attr("src", link);
+        });
+    </script>
 </section>
+
+<?php
+$recalls = new WP_Query(
+        array(
+    'post_type' => 'recall',
+    'posts_per_page' => -1,
+    'orderby' => 'post_date',
+    'order' => 'ASC',
+        )
+);
+
+if ($recalls->have_posts()):
+    ?>
+    <section class="bg" id="reviews">
+        <div class="container-wd">
+            <div class="section-header">
+                <h2 class="text-center">Отзывы</h2>
+            </div>
+            <div class="section-content">
+
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <?php $i = 0; 
+                        while ($recalls->have_posts()):$recalls->the_post(); ?>
+                            <div class="item <?php echo ($i == 0) ? 'active' : '';?> ">
+                                <div class="media">
+                                    <div class="media-img">
+                                        <?php echo get_the_post_thumbnail(get_the_ID(), 'thumbnail', array("class" => "img-responsive")); ?>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4><?php the_title(); ?></h4>
+                                        <p><?php the_content(); ?></p>
+                                    </div>  
+                                </div>
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                        <?php $i++;  
+                        endwhile; ?>
+                      
+                    </div>
+                    <ol class="carousel-indicators">
+                        <?php for($k = 0; $k < $i; $k++) { ?>
+                        <li data-target="#carousel" data-slide-to="<?php echo $k; ?>" class="<?php echo ($k == 0) ? 'active' : '';?>"></li>
+                        <?php } ?>
+                    </ol>
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="fa fa-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="fa fa-chevron-right"></span>
+                    </a>
+                </div>
+
+                <div class="text-center m-t-30">
+                    <a href="<?php echo get_option('vk_link'); ?>" class="btn btn-blue">Остальные отзывы в Вконтакте <i class="fa fa-angle-double-right"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
 <section id="coordinator">
     <div class="container-wd">
         <div class="section-header">
@@ -727,6 +657,4 @@ get_header();
 <!-- Здесь карта, высота 580px-->
 <img src="https://api.fnkr.net/testimg/2000x580/00CED1/FFF/?text=img+placeholder" class="img-responsive"/>
 <!--  -->
-
 <?php wp_footer(); ?>
-
