@@ -348,9 +348,11 @@ if ($recalls->have_posts()):
 
                 <div id="carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner">
-                        <?php $i = 0; 
-                        while ($recalls->have_posts()):$recalls->the_post(); ?>
-                            <div class="item <?php echo ($i == 0) ? 'active' : '';?> ">
+                        <?php
+                        $i = 0;
+                        while ($recalls->have_posts()):$recalls->the_post();
+                            ?>
+                            <div class="item <?php echo ($i == 0) ? 'active' : ''; ?> ">
                                 <div class="media">
                                     <div class="media-img">
                                         <?php echo get_the_post_thumbnail(get_the_ID(), 'thumbnail', array("class" => "img-responsive")); ?>
@@ -363,13 +365,15 @@ if ($recalls->have_posts()):
                                 <div class="carousel-caption">
                                 </div>
                             </div>
-                        <?php $i++;  
-                        endwhile; ?>
-                      
+                            <?php
+                            $i++;
+                        endwhile;
+                        ?>
+
                     </div>
                     <ol class="carousel-indicators">
-                        <?php for($k = 0; $k < $i; $k++) { ?>
-                        <li data-target="#carousel" data-slide-to="<?php echo $k; ?>" class="<?php echo ($k == 0) ? 'active' : '';?>"></li>
+                        <?php for ($k = 0; $k < $i; $k++) { ?>
+                            <li data-target="#carousel" data-slide-to="<?php echo $k; ?>" class="<?php echo ($k == 0) ? 'active' : ''; ?>"></li>
                         <?php } ?>
                     </ol>
                     <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -393,6 +397,9 @@ if ($recalls->have_posts()):
         <div class="section-header">
             <h2 class="text-center">Услуги свадебного распорядителя</h2>
         </div>
+
+        <?php
+        ?>
         <div class="section-content">
             <div class="media">
                 <div class="pull-left img">
@@ -402,64 +409,67 @@ if ($recalls->have_posts()):
                     <p class="chief-paragraph">Свадебный распорядитель, он же координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
                 </div>
             </div>
+<?php
+$coordibator_services = new WP_Query(
+        array(
+    'post_type' => 'service',
+    'posts_per_page' => -1,
+    'orderby' => 'post_date',
+    'order' => 'ASC',
+    'tax_query' => array(
+        array(
+            'taxonomy' => 'service_tax',
+            'field' => 'slug',
+            'terms' => 'svdebnyiy-rasporyaditel'
+        )
+    ),
+        // Other query properties
+        )
+);
+if ($coordibator_services->have_posts()):
+    ?>
+                <div class="row section-content in">
+                    <div class="col-xs-1">
 
-            <div class="row section-content">
-                <div class="col-xs-1">
+                    </div>
+    <?php
+    while ($coordibator_services->have_posts()):
+        $coordibator_services->the_post();
+        ?>
+                        <div class="col-xs-5">
+                            <div class="block-price">
+                                <div class="block-price-header">
+        <?php the_title();
+        ?>
+                                    <?php $is_free=get_post_meta(get_the_ID(), 'is_free', true);
+                                            if($is_free == "yes") {?>
+                                    <p class="text-extra-p">Бесплатно</p>
+                                            <?php } else { ?>
+                                    <p class="text-no"><?php echo get_post_meta(get_the_ID(), 'old_price', true); ?> р.</p>
+                                    <p class="text-extra-p"><?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> р.</p>
+                                            <?php } ?>
+                                </div>
+                                <div class="block-price-content">
+        <?php echo get_non_additional_service_content(get_the_ID()); ?>
 
-                </div>
-                <div class="col-xs-5">
-                    <div class="block-price blue">
-                        <div class="block-price-header">
-                            Свадебный распорядитель в день свадьбы
-                            <p class="text-no"></p>
-                            <p class="text-extra-p">4800 р.</p>
+                                </div>
+                                <div class="block-price-footer">
+                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order">Заказать</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="block-price-content">
-                            <ul class="pseudo-table">
-                                <li>Контроль всех подрядчиков накануне свадьбы ( банкет, ведущий, водители, видео, фото, транспорт, флорист, артисты, стилист и другие)</li>
-                                <li>Решение любых организационных моментов, возникающих на протяжении свадебного дня</li>
-                                <li>Нахождение на банкетной площадке с момента начала подготовки банкета вплоть до окончания</li>
-                                <li>Координация и расчет всех подрядчиков</li>
-                                <li>Контроль качества и кол-ва выполняемых услуг</li>
-                            </ul>
-                        </div>
-                        <div class="block-price-footer">
-                            <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order-coordinator">Заказать</a>
-                        </div>
+        <?php
+    endwhile;
+    ?>
+                    <div class="col-xs-1">
+
                     </div>
                 </div>
-                <div class="col-xs-5">
-                    <div class="block-price blue">
-                        <div class="block-price-header">
-                            Свадьба «под ключ» от свадебного агентства
-                            <p class="text-no"></p>
-                            <p class="text-extra-p"> бесплатно</p>
-                        </div>
-                        <div class="block-price-content">
-                            <ul class="pseudo-table">
-                                <li>При заказе свадьбы « под ключ» в свадебном агентстве («название, оно же ссылка на сайт») свадебный координатор бесплатно!</li>
-                                <li>Каждой паре подарок на выбор:
-                                    <ul class="stylized">
-                                        <li>Свадебный танец</li>
-                                        <li>Свадебный торт + каравай</li>
-                                        <li>Love story</li>
-                                        <li>Номер в отеле</li>
-                                        <li>Букет невесты + бутоньерка</li>
-                                        <li>Горка из шампанского</li>
-                                    </ul>
-                                </li>
-                                <li>Возможны варианты до 3-х услуг в подарок, подробнее на сайте агентства.</li>
-                            </ul>
-                        </div>
-                        <div class="block-price-footer">
-                            <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order-coordinator">Заказать</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xs-1">
-
-                </div>
-            </div>
+    <?php
+    else:
+        echo "nothung";
+endif;
+?>
         </div>
     </div>
 </section>
