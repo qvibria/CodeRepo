@@ -73,9 +73,7 @@ class Talan_Metabox {
         $value = get_post_meta($post->ID, $this->metabox['id'], true);
 
         // Display the form, using the current value.
-        echo '<label for="' . $this->metabox['id'] . '">';
-        echo $this->metabox['name'];
-        echo '</label> ';
+       
         echo '<input type="text" id="' . $this->metabox['id'] . '" name="' . $this->metabox['id'] . '"';
         echo ' value="' . $value . '" size="25" />';
     }

@@ -19,10 +19,10 @@
 define('DB_NAME', 'bavdance');
 
 /** Имя пользователя MySQL */
-define('DB_USER', 'bav_user');
+define('DB_USER', 'bavdance_user');
 
 /** Пароль к базе данных MySQL */
-define('DB_PASSWORD', 'bav_password');
+define('DB_PASSWORD', 'bavdance_password');
 
 /** Имя сервера MySQL */
 define('DB_HOST', 'localhost');
