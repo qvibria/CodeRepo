@@ -124,7 +124,13 @@ get_header();
                         'key' => 'is_additional',
                         'value' => 'no',
                     )
-                ),
+                ), 'tax_query' => array(
+                    array(
+                        'taxonomy' => 'service_tax',
+                        'field' => 'slug',
+                        'terms' => 'standartnyie'
+                    )
+                ),s
                     // Other query properties
                     )
             );
@@ -145,14 +151,84 @@ get_header();
                                     <p class="text-extra-p"><?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> р.</p>
                                 </div>
                                 <div class="block-price-content">
-                                    <?php echo get_non_additional_service_content(get_the_ID()); ?>
+                                    <?php echo the_content(); ?>
 
                                 </div>
                                 <div class="block-price-footer">
-                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order">Заказать</a>
+                                    <a class="btn btn-pink-border "  data-toggle="modal" data-target="#<?php echo "to-order-" . get_the_ID(); ?>">Заказать</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog small">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="section-header">
+                                            <h2 class="text-center t-acL" id="<?php echo "modal-info-" . get_the_ID(); ?>">Заказать звонок</h2>
+                                            <form role="form" id="<?php echo "callback-form-" . get_the_ID(); ?>">
+                                                <div class="form-group">
+                                                    <input type="text" required="true" class="form-control" id="name" name="name" placeholder="Введите имя*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                </div>
+                                                <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
+                                                <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var form_id = "<?php echo "#callback-form-" . get_the_ID(); ?>";
+                            jQuery(form_id).on("submit", function (e) {
+                                e.preventDefault();
+                                var data = jQuery(this).serialize();
+                                jQuery.ajax({
+                                    url: "<?php echo get_bloginfo("template_url") . "/email_ajax.php"; ?>",
+                                    data: data,
+                                    method: "POST",
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.status == "success") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("success-msg");
+                                                $(this).text("Письмо отправлено").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "not_valid") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка. Проверьте введенные данные.").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "email_not_sended") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка связи. Попробуйте позже.").fadeIn();
+                                            });
+                                        }
+                                    },
+                                    error: function (data) {
+                                        $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                            $(this).addClass("error-msg");
+                                            $(this).text("Ошибка связи. Обратитесь в техподдержку.").fadeIn();
+
+                                        });
+                                    }
+
+                                }
+                                );
+                            });
+
+                        </script>
                         <?php
                     endwhile;
                     ?>
@@ -166,32 +242,7 @@ get_header();
         </div>
     </div>
 </section>
-<div class="modal fade about" id="to-order" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog small">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="section-header">
-                    <h2 class="text-center t-acL">Заказать услугу</h2>
-                    <form role="form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Введите имя*"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="phone" placeholder="Введите телефон*"/>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Комментарий" rows="5"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-pink-border center-block">Заказать</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <section id="additional-services">
     <div class="container-wd">
         <div class="section-header">
@@ -208,6 +259,13 @@ get_header();
                 array(
                     'key' => 'is_additional',
                     'value' => 'yes',
+                )
+            ),
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'service_tax',
+                    'field' => 'slug',
+                    'terms' => 'standartnyie'
                 )
             ),
                 )
@@ -397,9 +455,6 @@ if ($recalls->have_posts()):
         <div class="section-header">
             <h2 class="text-center">Услуги свадебного распорядителя</h2>
         </div>
-
-        <?php
-        ?>
         <div class="section-content">
             <div class="media">
                 <div class="pull-left img">
@@ -409,67 +464,151 @@ if ($recalls->have_posts()):
                     <p class="chief-paragraph">Свадебный распорядитель, он же координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
                 </div>
             </div>
-<?php
-$coordibator_services = new WP_Query(
-        array(
-    'post_type' => 'service',
-    'posts_per_page' => -1,
-    'orderby' => 'post_date',
-    'order' => 'ASC',
-    'tax_query' => array(
-        array(
-            'taxonomy' => 'service_tax',
-            'field' => 'slug',
-            'terms' => 'svdebnyiy-rasporyaditel'
-        )
-    ),
-        // Other query properties
-        )
-);
-if ($coordibator_services->have_posts()):
-    ?>
+
+            <?php
+            $coordibator_services = new WP_Query(
+                    array(
+                'post_type' => 'service',
+                'posts_per_page' => -1,
+                'orderby' => 'post_date',
+                'order' => 'ASC',
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'service_tax',
+                        'field' => 'slug',
+                        'terms' => 'svadebnyiy-raspredelitel'
+                    )
+                ),
+                    // Other query properties
+                    )
+            );
+            if ($coordibator_services->have_posts()):
+                ?>
                 <div class="row section-content in">
                     <div class="col-xs-1">
 
                     </div>
-    <?php
-    while ($coordibator_services->have_posts()):
-        $coordibator_services->the_post();
-        ?>
+                    <?php
+                    while ($coordibator_services->have_posts()):
+                        $coordibator_services->the_post();
+                        ?>
                         <div class="col-xs-5">
                             <div class="block-price">
                                 <div class="block-price-header">
-        <?php the_title();
-        ?>
-                                    <?php $is_free=get_post_meta(get_the_ID(), 'is_free', true);
-                                            if($is_free == "yes") {?>
-                                    <p class="text-extra-p">Бесплатно</p>
-                                            <?php } else { ?>
-                                    <p class="text-no"><?php echo get_post_meta(get_the_ID(), 'old_price', true); ?> р.</p>
-                                    <p class="text-extra-p"><?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> р.</p>
-                                            <?php } ?>
+                                    <?php the_title();
+                                    ?>
+                                      <p class="text-no"></p>
+                                    <?php
+                                    $is_free = get_post_meta(get_the_ID(), 'is_free', true);
+                                    if ($is_free == "yes") {
+                                        ?>
+                                        <p class="text-extra-p">Бесплатно</p>
+                                    <?php } else { ?>
+                                        <?php
+                                        $old_price = get_post_meta(get_the_ID(), 'old_price', true);
+                                        if ($old_price != "") {
+                                            ?>
+                                            <p class="text-no"><?php echo $old_price; ?> р.</p>
+                                            <?php
+                                        }
+                                        $new_price = get_post_meta(get_the_ID(), 'new_price', true);
+                                        if ($new_price != "") {
+                                            ?>
+                                            <p class="text-extra-p"><?php echo $new_price; ?> р.</p>
+                                        <?php } ?>
+                                    <?php } ?>
                                 </div>
                                 <div class="block-price-content">
-        <?php echo get_non_additional_service_content(get_the_ID()); ?>
+                                    <?php the_content(); ?>
 
                                 </div>
                                 <div class="block-price-footer">
-                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order">Заказать</a>
+                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#<?php echo "to-order-" . get_the_ID(); ?>">Заказать</a>
                                 </div>
                             </div>
                         </div>
-        <?php
-    endwhile;
-    ?>
+                      <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog small">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="section-header">
+                                            <h2 class="text-center t-acL" id="<?php echo "modal-info-" . get_the_ID(); ?>">Заказать звонок</h2>
+                                            <form role="form" id="<?php echo "callback-form-" . get_the_ID(); ?>">
+                                                <div class="form-group">
+                                                    <input type="text" required="true" class="form-control" id="name" name="name" placeholder="Введите имя*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                </div>
+                                                <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
+                                                <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var form_id = "<?php echo "#callback-form-" . get_the_ID(); ?>";
+                            jQuery(form_id).on("submit", function (e) {
+                                e.preventDefault();
+                                var data = jQuery(this).serialize();
+                                jQuery.ajax({
+                                    url: "<?php echo get_bloginfo("template_url") . "/email_ajax.php"; ?>",
+                                    data: data,
+                                    method: "POST",
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.status == "success") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("success-msg");
+                                                $(this).text("Письмо отправлено").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "not_valid") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка. Проверьте введенные данные.").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "email_not_sended") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка связи. Попробуйте позже.").fadeIn();
+                                            });
+                                        }
+                                    },
+                                    error: function (data) {
+                                        $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                            $(this).addClass("error-msg");
+                                            $(this).text("Ошибка связи. Обратитесь в техподдержку.").fadeIn();
+
+                                        });
+                                    }
+
+                                }
+                                );
+                            });
+
+                        </script>
+                        <?php
+                    endwhile;
+                    ?>
                     <div class="col-xs-1">
 
                     </div>
                 </div>
-    <?php
-    else:
-        echo "nothung";
-endif;
-?>
+                <?php
+            else:
+                echo "Ничего нет";
+            endif;
+            ?>
         </div>
     </div>
 </section>
@@ -665,6 +804,6 @@ endif;
 </section>
 
 <!-- Здесь карта, высота 580px-->
-<img src="https://api.fnkr.net/testimg/2000x580/00CED1/FFF/?text=img+placeholder" class="img-responsive"/>
+<script type="text/javascript" charset="utf-8" src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=zeK-ItdS0JbuWyGjqf5mhEgBA4rgQ5Yl&height=580"></script>
 <!--  -->
-<?php wp_footer(); ?>
+<?php get_footer(); ?>
