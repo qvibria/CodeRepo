@@ -28,6 +28,12 @@ video {
   display: inline-block;
   vertical-align: baseline;
 }
+.error-msg{
+    color:red;
+}
+.success-msg{
+    color:green;
+}
 audio:not([controls]) {
   display: none;
   height: 0;

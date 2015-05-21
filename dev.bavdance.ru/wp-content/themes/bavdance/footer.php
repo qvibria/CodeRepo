@@ -1,4 +1,4 @@
-<?php get_footer(); ?>
+<?php wp_footer(); ?>
 <section id="contact">
     <div class="container">
         <div class="media">
@@ -29,21 +29,17 @@
 <div id="scroller"></div>
 <!-- /container -->        
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-
-<script src="js/vendor/bootstrap.min.js"></script>
-
-<script src="js/jquery.localscroll.min.js"></script>
-<script src="js/jquery.scrollTo-1.4.3.1.js"></script>
-<script src="js/jquery.parallax.js"></script>
-<script src="js/wow.min.js"></script>
-<script src="js/main.js"></script>
 
 <script type="text/javascript">
     new WOW().init();
+    jQuery(".service-order-button").click(function (e) {
+        console.log("Yes");
+        var servicename = jQuery(this).find("input[name='service_name']");
+        servicename = servicename[0];
+        jQuery("#service-name").val(servicename.text);
+    });
 </script>
 
-<script src="js/main.js"></script>
 
 </body>
 </html>
