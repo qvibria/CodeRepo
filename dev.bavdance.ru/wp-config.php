@@ -33,6 +33,7 @@ define('DB_CHARSET', 'utf8');
 /** Схема сопоставления. Не меняйте, если не уверены. */
 define('DB_COLLATE', '');
 define('FS_METHOD', 'direct');
+
 /**#@+
  * Уникальные ключи и соли для аутентификации.
  *
@@ -78,8 +79,3 @@ if ( !defined('ABSPATH') )
 
 /** Инициализирует переменные WordPress и подключает файлы. */
 require_once(ABSPATH . 'wp-settings.php');
-
-if(is_admin()) {
-add_filter('filesystem_method', create_function('$a', 'return "direct";' ));
-define( 'FS_CHMOD_DIR', 0751 );
-}
