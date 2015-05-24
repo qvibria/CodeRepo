@@ -1,4 +1,4 @@
-<?php get_footer(); ?>
+<?php wp_footer(); ?>
 <section id="contact">
     <div class="container">
         <div class="media">
@@ -15,12 +15,12 @@
                     </a>
                 </div>
 
-                <p class="mail">info@bavdance.ru</p>
+                <p class="mail"><?php echo get_option("site_email"); ?> </p>
             </div>
             <div class="slogan blue">
             </div>
             <div class="pull-right">
-                <p class="phone">8 (812) 981-67-68</p>
+                <p class="phone"><?php echo get_option("site_phone"); ?> </p>
             </div>
         </div>
     </div>
@@ -29,21 +29,20 @@
 <div id="scroller"></div>
 <!-- /container -->        
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
-<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.0.min.js"><\/script>')</script>
-
-<script src="js/vendor/bootstrap.min.js"></script>
-
-<script src="js/jquery.localscroll.min.js"></script>
-<script src="js/jquery.scrollTo-1.4.3.1.js"></script>
-<script src="js/jquery.parallax.js"></script>
-<script src="js/wow.min.js"></script>
-<script src="js/main.js"></script>
 
 <script type="text/javascript">
     new WOW().init();
+    jQuery(".service-order-button").click(function (e) {
+        
+        var servicename = jQuery(this).find("input[name='service_name']");
+        servicename = servicename[0];
+        jQuery("#service-name").val(servicename.text);
+    });
 </script>
+ <script type="text/javascript">
+        $('.carousel').carousel();
+    </script>
 
-<script src="js/main.js"></script>
 
 </body>
 </html>

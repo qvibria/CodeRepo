@@ -124,7 +124,13 @@ get_header();
                         'key' => 'is_additional',
                         'value' => 'no',
                     )
-                ),
+                ), 'tax_query' => array(
+                    array(
+                        'taxonomy' => 'service_tax',
+                        'field' => 'slug',
+                        'terms' => 'standartnyie'
+                    )
+                ), s
                     // Other query properties
                     )
             );
@@ -145,14 +151,84 @@ get_header();
                                     <p class="text-extra-p"><?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> р.</p>
                                 </div>
                                 <div class="block-price-content">
-                                    <?php echo get_non_additional_service_content(get_the_ID()); ?>
+                                    <?php echo the_content(); ?>
 
                                 </div>
                                 <div class="block-price-footer">
-                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order">Заказать</a>
+                                    <a class="btn btn-pink-border "  data-toggle="modal" data-target="#<?php echo "to-order-" . get_the_ID(); ?>">Заказать</a>
                                 </div>
                             </div>
                         </div>
+                        <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog small">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="section-header">
+                                            <h2 class="text-center t-acL" id="<?php echo "modal-info-" . get_the_ID(); ?>">Заказать звонок</h2>
+                                            <form role="form" id="<?php echo "callback-form-" . get_the_ID(); ?>">
+                                                <div class="form-group">
+                                                    <input type="text" required="true" class="form-control" id="name" name="name" placeholder="Введите имя*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                </div>
+                                                <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
+                                                <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var form_id = "<?php echo "#callback-form-" . get_the_ID(); ?>";
+                            jQuery(form_id).on("submit", function (e) {
+                                e.preventDefault();
+                                var data = jQuery(this).serialize();
+                                jQuery.ajax({
+                                    url: "<?php echo get_bloginfo("template_url") . "/email_ajax.php"; ?>",
+                                    data: data,
+                                    method: "POST",
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.status == "success") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("success-msg");
+                                                $(this).text("Письмо отправлено").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "not_valid") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка. Проверьте введенные данные.").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "email_not_sended") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка связи. Попробуйте позже.").fadeIn();
+                                            });
+                                        }
+                                    },
+                                    error: function (data) {
+                                        $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                            $(this).addClass("error-msg");
+                                            $(this).text("Ошибка связи. Обратитесь в техподдержку.").fadeIn();
+
+                                        });
+                                    }
+
+                                }
+                                );
+                            });
+
+                        </script>
                         <?php
                     endwhile;
                     ?>
@@ -166,32 +242,7 @@ get_header();
         </div>
     </div>
 </section>
-<div class="modal fade about" id="to-order" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog small">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="section-header">
-                    <h2 class="text-center t-acL">Заказать услугу</h2>
-                    <form role="form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Введите имя*"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="phone" placeholder="Введите телефон*"/>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Комментарий" rows="5"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-pink-border center-block">Заказать</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <section id="additional-services">
     <div class="container-wd">
         <div class="section-header">
@@ -210,6 +261,7 @@ get_header();
                     'value' => 'yes',
                 )
             ),
+           
                 )
         );
 
@@ -230,7 +282,7 @@ get_header();
                                 <td><?php the_title() ?></td>
                                 <td><?php the_content(); ?></td>
                                 <td class="text-extra">
-                                    от <?php echo get_post_meta(get_the_ID(), 'old_price', true); ?> рублей
+                                    от <?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> рублей
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -271,12 +323,11 @@ get_header();
             ?>
 
             <div class="section-content">
-                <?php while ($pf_videos->have_posts()): ?>
+                <?php $i = 1; while ($pf_videos->have_posts()): $pf_videos->the_post();?>
+                <?php if($i == 1) { ?>
                     <div class="row">
-                        <?php
-                        for ($i = 0; $i < 3; $i++) {
-                            $pf_videos->the_post();
-                            ?>
+                <?php } ?>
+                      
                             <div class="col-xs-4">
                                 <div class="block">   
                                     <div class="block-img">
@@ -296,11 +347,14 @@ get_header();
                                     <p><?php the_content(); ?></p>                      
                                 </div>
                             </div>
-                        <?php } ?>
-
+                        
+ <?php if(($i % 3) == 0) { ?>
                     </div>
+                 <div class="row">
+ <?php }$i++;  ?>
 
                 <?php endwhile; ?>
+                 </div>
 
 
             </div>
@@ -323,6 +377,9 @@ get_header();
 
             console.log(link);
             jQuery("#video_iframe").attr("src", link);
+        });
+        jQuery("#video-modal").on("click", function(){
+           jQuery("#video_iframe").attr("src", "#"); 
         });
     </script>
 </section>
@@ -372,7 +429,9 @@ if ($recalls->have_posts()):
 
                     </div>
                     <ol class="carousel-indicators">
-                        <?php for ($k = 0; $k < $i; $k++) { ?>
+                        <?php
+                        for ($k = 0; $k < $i; $k++) {
+                            ?>
                             <li data-target="#carousel" data-slide-to="<?php echo $k; ?>" class="<?php echo ($k == 0) ? 'active' : ''; ?>"></li>
                         <?php } ?>
                     </ol>
@@ -397,9 +456,6 @@ if ($recalls->have_posts()):
         <div class="section-header">
             <h2 class="text-center">Услуги свадебного распорядителя</h2>
         </div>
-
-        <?php
-        ?>
         <div class="section-content">
             <div class="media">
                 <div class="pull-left img">
@@ -409,262 +465,224 @@ if ($recalls->have_posts()):
                     <p class="chief-paragraph">Свадебный распорядитель, он же координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
                 </div>
             </div>
-<?php
-$coordibator_services = new WP_Query(
-        array(
-    'post_type' => 'service',
-    'posts_per_page' => -1,
-    'orderby' => 'post_date',
-    'order' => 'ASC',
-    'tax_query' => array(
-        array(
-            'taxonomy' => 'service_tax',
-            'field' => 'slug',
-            'terms' => 'svdebnyiy-rasporyaditel'
-        )
-    ),
-        // Other query properties
-        )
-);
-if ($coordibator_services->have_posts()):
-    ?>
+
+            <?php
+            $coordibator_services = new WP_Query(
+                    array(
+                'post_type' => 'service',
+                'posts_per_page' => -1,
+                'orderby' => 'post_date',
+                'order' => 'ASC',
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'service_tax',
+                        'field' => 'slug',
+                        'terms' => 'svadebnyiy-raspredelitel'
+                    )
+                ),
+                    // Other query properties
+                    )
+            );
+            if ($coordibator_services->have_posts()):
+                ?>
                 <div class="row section-content in">
                     <div class="col-xs-1">
 
                     </div>
-    <?php
-    while ($coordibator_services->have_posts()):
-        $coordibator_services->the_post();
-        ?>
+                    <?php
+                    while ($coordibator_services->have_posts()):
+                        $coordibator_services->the_post();
+                        ?>
                         <div class="col-xs-5">
                             <div class="block-price">
                                 <div class="block-price-header">
-        <?php the_title();
-        ?>
-                                    <?php $is_free=get_post_meta(get_the_ID(), 'is_free', true);
-                                            if($is_free == "yes") {?>
-                                    <p class="text-extra-p">Бесплатно</p>
-                                            <?php } else { ?>
-                                    <p class="text-no"><?php echo get_post_meta(get_the_ID(), 'old_price', true); ?> р.</p>
-                                    <p class="text-extra-p"><?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> р.</p>
-                                            <?php } ?>
+                                    <?php the_title();
+                                    ?>
+                                    <p class="text-no"></p>
+                                    <?php
+                                    $is_free = get_post_meta(get_the_ID(), 'is_free', true);
+                                    if ($is_free == "yes") {
+                                        ?>
+                                        <p class="text-extra-p">Бесплатно</p>
+                                    <?php } else { ?>
+                                        <?php
+                                        $old_price = get_post_meta(get_the_ID(), 'old_price', true);
+                                        if ($old_price != "") {
+                                            ?>
+                                            <p class="text-no"><?php echo $old_price; ?> р.</p>
+                                            <?php
+                                        }
+                                        $new_price = get_post_meta(get_the_ID(), 'new_price', true);
+                                        if ($new_price != "") {
+                                            ?>
+                                            <p class="text-extra-p"><?php echo $new_price; ?> р.</p>
+                                        <?php } ?>
+                                    <?php } ?>
                                 </div>
                                 <div class="block-price-content">
-        <?php echo get_non_additional_service_content(get_the_ID()); ?>
+                                    <?php the_content(); ?>
 
                                 </div>
                                 <div class="block-price-footer">
-                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#to-order">Заказать</a>
+                                    <a class="btn btn-pink-border" data-toggle="modal" data-target="#<?php echo "to-order-" . get_the_ID(); ?>">Заказать</a>
                                 </div>
                             </div>
                         </div>
-        <?php
-    endwhile;
-    ?>
+                        <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog small">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="section-header">
+                                            <h2 class="text-center t-acL" id="<?php echo "modal-info-" . get_the_ID(); ?>">Заказать звонок</h2>
+                                            <form role="form" id="<?php echo "callback-form-" . get_the_ID(); ?>">
+                                                <div class="form-group">
+                                                    <input type="text" required="true" class="form-control" id="name" name="name" placeholder="Введите имя*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                </div>
+                                                <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
+                                                <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script type="text/javascript">
+                            var form_id = "<?php echo "#callback-form-" . get_the_ID(); ?>";
+                            jQuery(form_id).on("submit", function (e) {
+                                e.preventDefault();
+                                var data = jQuery(this).serialize();
+                                jQuery.ajax({
+                                    url: "<?php echo get_bloginfo("template_url") . "/email_ajax.php"; ?>",
+                                    data: data,
+                                    method: "POST",
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        if (data.status == "success") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("success-msg");
+                                                $(this).text("Письмо отправлено").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "not_valid") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка. Проверьте введенные данные.").fadeIn();
+                                            });
+                                        }
+                                        if (data.status == "email_not_sended") {
+                                            $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                                $(this).addClass("error-msg");
+                                                $(this).text("Ошибка связи. Попробуйте позже.").fadeIn();
+                                            });
+                                        }
+                                    },
+                                    error: function (data) {
+                                        $("#<?php echo "modal-info-" . get_the_ID(); ?>").fadeOut(function () {
+                                            $(this).addClass("error-msg");
+                                            $(this).text("Ошибка связи. Обратитесь в техподдержку.").fadeIn();
+
+                                        });
+                                    }
+
+                                }
+                                );
+                            });
+
+                        </script>
+                        <?php
+                    endwhile;
+                    ?>
                     <div class="col-xs-1">
 
                     </div>
                 </div>
-    <?php
-    else:
-        echo "nothung";
-endif;
-?>
+                <?php
+            else:
+                echo "Ничего нет";
+            endif;
+            ?>
         </div>
     </div>
 </section>
-<div class="modal fade about" id="to-order-coordinator" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog small">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="section-header">
-                    <h2 class="text-center t-acL">Заказать услугу свадебного распорядителя</h2>
-                    <form role="form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Введите имя*"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="phone" placeholder="Введите телефон*"/>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Комментарий" rows="5"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-pink-border center-block">Заказать</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <section class="bg" id="music">
     <div class="container-wd">
         <div class="section-header">
             <h2 class="text-center">Музыка</h2>
         </div>
+        <?php
+        $albums = get_terms(array("albums"), array(
+            'orderby' => 'count',
+            'hide_empty' => 0
+        ));
+        ?>
+
         <div class="section-content">
             <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseOne">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
+                <?php foreach ($albums as $album):
+                    ?>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapseOne">
+                                    <div class="img">
+                                        <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
+                                    </div>
+                                    <span><?php echo $album->name; ?></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <?php
+                            $args = array(
+                                'post_type' => 'attachment',
+                                'post_mime_type' => 'audio',
+                                'numberposts' => -1,
+                                'post_status' => "published",
+                                'post_parent' => null, // any parent
+                                'tax_query' => array(
+                                    array(
+                                        'taxonomy' => 'albums',
+                                        'field' => 'slug',
+                                        'terms' => array($album->slug)
+                                    )
+                                ),
+                            );
+
+                            $music = new WP_Query($args);
+                            ?>
+                            <?php if ($music->have_posts()): ?>
+                                    <?php while ($music->have_posts()): $music->the_post(); ?>
+                                <div class="panel-body">
+                                        <label style="display: block;"><?php the_title(); ?></label>
+                                        <audio style="width:800px" controls>
+                                            <source src="<?php echo wp_get_attachment_url(get_the_ID()); ?>" type="audio/mp3">
+                                            Ваш браузер не поддерживает воспроизведение аудио
+                                        </audio>
                                 </div>
-                                <span>Латиноамериканская музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    <?php endwhile; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseTwo">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Зарубежная лирическая музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseThree">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Русская лирическая музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse4">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Вальсы</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse4" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse5">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Танго</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse5" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse6">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Танец с папой</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse6" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse7">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Зажигательная музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse7" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse8">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Музыка из фильмов</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse8" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse9">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Современная музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse9" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
+
         </div>
     </div>
+</div>
 </section>
 
 <!-- Здесь карта, высота 580px-->
-<img src="https://api.fnkr.net/testimg/2000x580/00CED1/FFF/?text=img+placeholder" class="img-responsive"/>
+<script type="text/javascript" charset="utf-8" src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=zeK-ItdS0JbuWyGjqf5mhEgBA4rgQ5Yl&height=580"></script>
 <!--  -->
-<?php wp_footer(); ?>
+<?php get_footer(); ?>

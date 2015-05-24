@@ -48,7 +48,6 @@ function create_service_post_type() {
         ),
         'public' => true,
         'has_archive' => true,
-        'taxonomies' => array('category'), 
             )
     );
     $old_price = array(
@@ -111,7 +110,7 @@ function create_video_post_type() {
     );
     $video_link = array(
         'id' => "video_link",
-        'name' => 'Ссылка на видео(youtube/vimeo и т.д.)'
+        'name' => 'Ссылка на видео(youtube)'
     );
     $pf_video_link_meta = new Talan_Metabox($video_link, array('pf_video'));
 }
@@ -132,7 +131,7 @@ function create_recall_post_type() {
 function get_non_additional_service_content($id) {
     $service = get_post($id);
     $srv_content = $service->post_content;
-    $service_cont_array = split(",", $srv_content);
+    $service_cont_array = split("|", $srv_content);
     $srv_formatted = "<ul class='pseudo-table'>";
     foreach ($service_cont_array as $str) {
         $srv_formatted .= "<li>" . trim($str) . "</li>";
@@ -159,6 +158,8 @@ function baw_create_menu() {
 function register_mysettings() {
     //register our settings
     register_setting('baw-settings-group', 'vk_link');
+    register_setting('baw-settings-group', 'site_email');
+    register_setting('baw-settings-group', 'site_phone');
 }
 
 function baw_settings_page() {
@@ -173,6 +174,14 @@ function baw_settings_page() {
                     <th scope="row">Ссылка Вконтакте</th>
                     <td><input type="text" name="vk_link" value="<?php echo get_option('vk_link'); ?>" /></td>
                 </tr>
+                 <tr valign="top">
+                    <th scope="row">Почта</th>
+                    <td><input type="email" name="site_email" value="<?php echo get_option('site_email'); ?>" /></td>
+                </tr>
+                  <tr valign="top">
+                    <th scope="row">Телефон</th>
+                    <td><input type="phone" name="site_phone" value="<?php echo get_option('site_phone'); ?>" /></td>
+                </tr>
 
             </table>
 
@@ -182,4 +191,34 @@ function baw_settings_page() {
 
         </form>
     </div>
-<?php } ?>
+<?php } 
+
+function register_album_tax() {
+    // заголовки
+	$labels = array(
+		'name'              => 'Альбомы',
+		'singular_name'     => 'Альбом',
+		
+	); 
+	// параметры
+	$args = array(
+		'label'                 => '', // определяется параметром $labels->name
+		'labels'                => $labels,
+		'public'                => true,
+		'show_in_nav_menus'     => true, // равен аргументу public
+		'show_ui'               => true, // равен аргументу public
+		'show_tagcloud'         => true, // равен аргументу show_ui
+		'hierarchical'          => true,
+		
+	);
+	register_taxonomy('albums', array('attachment'), $args );
+}
+add_action( 'init' , 'register_album_tax' );
+
+
+
+add_action( 'after_setup_theme', 'baw_theme_setup' );
+function baw_theme_setup() {
+
+  add_image_size( 'bav_size', 365, 180, true ); // (cropped)
+}
