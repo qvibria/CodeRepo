@@ -191,6 +191,7 @@ function baw_settings_page() {
 
         </form>
     </div>
+<<<<<<< HEAD
 <?php } 
 
 function register_album_tax() {
@@ -222,3 +223,7 @@ function baw_theme_setup() {
 
   add_image_size( 'bav_size', 365, 180, true ); // (cropped)
 }
+=======
+<?php } ?>
+
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c

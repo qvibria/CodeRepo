@@ -130,7 +130,11 @@ get_header();
                         'field' => 'slug',
                         'terms' => 'standartnyie'
                     )
+<<<<<<< HEAD
                 ), s
+=======
+                ),s
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                     // Other query properties
                     )
             );
@@ -156,6 +160,7 @@ get_header();
                                 </div>
                                 <div class="block-price-footer">
                                     <a class="btn btn-pink-border "  data-toggle="modal" data-target="#<?php echo "to-order-" . get_the_ID(); ?>">Заказать</a>
+<<<<<<< HEAD
                                 </div>
                             </div>
                         </div>
@@ -186,6 +191,38 @@ get_header();
                                 </div>
                             </div>
                         </div>
+=======
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog small">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="section-header">
+                                            <h2 class="text-center t-acL" id="<?php echo "modal-info-" . get_the_ID(); ?>">Заказать звонок</h2>
+                                            <form role="form" id="<?php echo "callback-form-" . get_the_ID(); ?>">
+                                                <div class="form-group">
+                                                    <input type="text" required="true" class="form-control" id="name" name="name" placeholder="Введите имя*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
+                                                </div>
+                                                <div class="form-group">
+                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                </div>
+                                                <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
+                                                <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                         <script type="text/javascript">
                             var form_id = "<?php echo "#callback-form-" . get_the_ID(); ?>";
                             jQuery(form_id).on("submit", function (e) {
@@ -261,7 +298,17 @@ get_header();
                     'value' => 'yes',
                 )
             ),
+<<<<<<< HEAD
            
+=======
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'service_tax',
+                    'field' => 'slug',
+                    'terms' => 'standartnyie'
+                )
+            ),
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                 )
         );
 
@@ -498,7 +545,11 @@ if ($recalls->have_posts()):
                                 <div class="block-price-header">
                                     <?php the_title();
                                     ?>
+<<<<<<< HEAD
                                     <p class="text-no"></p>
+=======
+                                      <p class="text-no"></p>
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                                     <?php
                                     $is_free = get_post_meta(get_the_ID(), 'is_free', true);
                                     if ($is_free == "yes") {
@@ -528,7 +579,11 @@ if ($recalls->have_posts()):
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
                         <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+=======
+                      <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                             <div class="modal-dialog small">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -685,4 +740,8 @@ if ($recalls->have_posts()):
 <!-- Здесь карта, высота 580px-->
 <script type="text/javascript" charset="utf-8" src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=zeK-ItdS0JbuWyGjqf5mhEgBA4rgQ5Yl&height=580"></script>
 <!--  -->
+<<<<<<< HEAD
 <?php get_footer(); ?>
+=======
+<?php get_footer(); ?>
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c

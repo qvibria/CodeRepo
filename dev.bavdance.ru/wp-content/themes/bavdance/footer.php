@@ -33,7 +33,11 @@
 <script type="text/javascript">
     new WOW().init();
     jQuery(".service-order-button").click(function (e) {
+<<<<<<< HEAD
         
+=======
+        console.log("Yes");
+>>>>>>> 4ee853a4ca913458d61781707283815487ac032c
         var servicename = jQuery(this).find("input[name='service_name']");
         servicename = servicename[0];
         jQuery("#service-name").val(servicename.text);
