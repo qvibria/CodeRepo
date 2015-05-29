@@ -6,9 +6,16 @@
 get_header();
 ?>
 <div class="container-wd">
-    <div class="video-main">
-        <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" class="img-responsive"/>
-    </div>
+    <?php if (empty(get_option("main_video"))) { ?>
+        <div class="video-main">
+
+            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" class="img-responsive"/>
+        </div>
+
+    <?php } else { ?>
+        <iframe id="main_video_iframe" src="<?php echo str_replace("watch?v=", "embed/", get_option('main_video')); ?>?autoplay=1&showinfo=0&controls=0" width="1000" height="666">
+        </iframe>
+    <?php } ?>
 </div>
 <div class="modal fade about" id="about-section" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -130,11 +137,7 @@ get_header();
                         'field' => 'slug',
                         'terms' => 'standartnyie'
                     )
-<<<<<<< HEAD
-                ), s
-=======
-                ),s
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
+                ),
                     // Other query properties
                     )
             );
@@ -160,7 +163,6 @@ get_header();
                                 </div>
                                 <div class="block-price-footer">
                                     <a class="btn btn-pink-border "  data-toggle="modal" data-target="#<?php echo "to-order-" . get_the_ID(); ?>">Заказать</a>
-<<<<<<< HEAD
                                 </div>
                             </div>
                         </div>
@@ -181,7 +183,7 @@ get_header();
                                                     <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                    <input  type="time" class="form-control" type="text"></input>
                                                 </div>
                                                 <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
                                                 <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
@@ -191,38 +193,6 @@ get_header();
                                 </div>
                             </div>
                         </div>
-=======
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog small">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="section-header">
-                                            <h2 class="text-center t-acL" id="<?php echo "modal-info-" . get_the_ID(); ?>">Заказать звонок</h2>
-                                            <form role="form" id="<?php echo "callback-form-" . get_the_ID(); ?>">
-                                                <div class="form-group">
-                                                    <input type="text" required="true" class="form-control" id="name" name="name" placeholder="Введите имя*"/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
-                                                </div>
-                                                <div class="form-group">
-                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
-                                                </div>
-                                                <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
-                                                <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                         <script type="text/javascript">
                             var form_id = "<?php echo "#callback-form-" . get_the_ID(); ?>";
                             jQuery(form_id).on("submit", function (e) {
@@ -298,17 +268,6 @@ get_header();
                     'value' => 'yes',
                 )
             ),
-<<<<<<< HEAD
-           
-=======
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'service_tax',
-                    'field' => 'slug',
-                    'terms' => 'standartnyie'
-                )
-            ),
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                 )
         );
 
@@ -370,38 +329,69 @@ get_header();
             ?>
 
             <div class="section-content">
-                <?php $i = 1; while ($pf_videos->have_posts()): $pf_videos->the_post();?>
-                <?php if($i == 1) { ?>
-                    <div class="row">
-                <?php } ?>
-                      
-                            <div class="col-xs-4">
-                                <div class="block">   
-                                    <div class="block-img">
-                                        <?php
-                                        $link = get_post_meta(get_the_ID(), 'video_link', true);
-                                        $link = str_replace("watch?v=", "embed/", $link);
-                                        ?>
-                                        <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>"  alt="" class="img-responsive"/>
-                                        <a class="circle" data-toggle="modal" data-target="#video-modal">
-                                            <i class="fa fa-video-camera"></i>
-                                        </a>
-                                        <form>
-                                            <input type="hidden" class="link_video" value="<?php echo $link; ?>"
+                <?php
+                $i = 1;
+                while ($pf_videos->have_posts()): $pf_videos->the_post();
+                    ?>
+                    <?php if ($i == 1) { ?>
+                        <div class="row">
+                        <?php } ?>
 
-                                        </form>
-                                    </div>   
-                                    <p><?php the_content(); ?></p>                      
+                        <div class="col-xs-4">
+                            <div class="block">   
+                                <div class="block-img">
+                                    <?php
+                                    $link = get_post_meta(get_the_ID(), 'video_link', true);
+                                    $link = str_replace("watch?v=", "embed/", $link);
+                                    ?>
+                                    <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>"  alt="" class="img-responsive"/>
+                                    <a class="circle" data-toggle="modal"  data-backdrop="static" data-target="#video-modal-<?php echo get_the_ID(); ?>">
+                                        <i class="fa fa-video-camera"></i>
+                                    </a>
+                                    <input type="hidden" class="link_video" value="<?php echo $link; ?>"
+
+                                           </form>
+                                </div>   
+                                <div class="portfolio-item-content"><?php the_content(); ?></div>                     
+                            </div>
+                            <div class="modal fade about" id="video-modal-<?php echo get_the_ID(); ?>" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog " style="top:20px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <iframe id="video_iframe_<?php echo get_the_ID(); ?>" src="#" width="100%" height="400">
+                                            </iframe>
+                                            <p class="description">
+                                                <?php the_content(); ?>
+                                            </p>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
-                        
- <?php if(($i % 3) == 0) { ?>
-                    </div>
-                 <div class="row">
- <?php }$i++;  ?>
+                            <script type="text/javascript">
+                                jQuery("a.circle").click(function (e) {
+                                    var parent = jQuery(this).parent();
+                                    var link = parent.find(".link_video").val();
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", link);
+                                });
+                                jQuery(".close").on("click", function () {
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", "#");
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", link);
+                                });
+                            </script>
+                        </div>
 
-                <?php endwhile; ?>
-                 </div>
+                        <?php if (($i % 3) == 0) { ?>
+                        </div>
+                        <div class="row">
+                        <?php }$i++; ?>
+
+                    <?php endwhile; ?>
+                </div>
 
 
             </div>
@@ -409,26 +399,7 @@ get_header();
         endif;
         ?>
     </div>
-    <div class="modal fade about" id="video-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog " style="top:20px">
 
-            <iframe id="video_iframe" src="#" width="100%" height="400">
-            </iframe>
-
-        </div>
-    </div>
-    <script type="text/javascript">
-        jQuery("a.circle").click(function (e) {
-            var parent = jQuery(this).parent();
-            var link = parent.find(".link_video").val();
-
-            console.log(link);
-            jQuery("#video_iframe").attr("src", link);
-        });
-        jQuery("#video-modal").on("click", function(){
-           jQuery("#video_iframe").attr("src", "#"); 
-        });
-    </script>
 </section>
 
 <?php
@@ -501,7 +472,7 @@ if ($recalls->have_posts()):
 <section id="coordinator">
     <div class="container-wd">
         <div class="section-header">
-            <h2 class="text-center">Услуги свадебного распорядителя</h2>
+            <h2 class="text-center">Услуги свадебного координатора</h2>
         </div>
         <div class="section-content">
             <div class="media">
@@ -509,7 +480,7 @@ if ($recalls->have_posts()):
                     <img src="<?php echo get_img_href("shutterstock_44142997.jpg"); ?>" alt="" class="img-responsive"/>
                 </div>
                 <div class="media-body">
-                    <p class="chief-paragraph">Свадебный распорядитель, он же координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
+                    <p class="chief-paragraph">Свадебный координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
                 </div>
             </div>
 
@@ -545,11 +516,7 @@ if ($recalls->have_posts()):
                                 <div class="block-price-header">
                                     <?php the_title();
                                     ?>
-<<<<<<< HEAD
                                     <p class="text-no"></p>
-=======
-                                      <p class="text-no"></p>
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                                     <?php
                                     $is_free = get_post_meta(get_the_ID(), 'is_free', true);
                                     if ($is_free == "yes") {
@@ -579,11 +546,7 @@ if ($recalls->have_posts()):
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
                         <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
-=======
-                      <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                             <div class="modal-dialog small">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -600,7 +563,8 @@ if ($recalls->have_posts()):
                                                     <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                    <input  type="time" class="form-control" type="text"></input>
+
                                                 </div>
                                                 <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
                                                 <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
@@ -717,15 +681,15 @@ if ($recalls->have_posts()):
                             $music = new WP_Query($args);
                             ?>
                             <?php if ($music->have_posts()): ?>
-                                    <?php while ($music->have_posts()): $music->the_post(); ?>
-                                <div class="panel-body">
+                                <?php while ($music->have_posts()): $music->the_post(); ?>
+                                    <div class="panel-body">
                                         <label style="display: block;"><?php the_title(); ?></label>
                                         <audio style="width:800px" controls>
                                             <source src="<?php echo wp_get_attachment_url(get_the_ID()); ?>" type="audio/mp3">
                                             Ваш браузер не поддерживает воспроизведение аудио
                                         </audio>
-                                </div>
-                                    <?php endwhile; ?>
+                                    </div>
+                                <?php endwhile; ?>
                             <?php endif; ?>
                         </div>
                     </div>
@@ -738,10 +702,26 @@ if ($recalls->have_posts()):
 </section>
 
 <!-- Здесь карта, высота 580px-->
-<script type="text/javascript" charset="utf-8" src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=zeK-ItdS0JbuWyGjqf5mhEgBA4rgQ5Yl&height=580"></script>
+<div class="metro-overlay">
+    <ul>
+        <li>
+            <div class="metro_popup" style="">
+                <span class="mmp_point"></span>
+                <span class="mpp_name" href="">проспект Стачек</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        Ленинский проспект</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                    <li class="mpp_time"></li>
+                </ul>
+                <div class="cl">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <img src="<?php echo get_img_href("metro.jpg"); ?>" />
+</div>
 <!--  -->
-<<<<<<< HEAD
 <?php get_footer(); ?>
-=======
-<?php get_footer(); ?>
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c

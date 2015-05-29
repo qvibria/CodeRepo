@@ -18,31 +18,23 @@
                     <div class="media">
                         <div class="pull-left">
                             <div style="overflow: hidden;">
-                                <a class="block-social">
+                                <a class="block-social" href="<?php echo get_option('vk_link'); ?>">
                                     <i class="fa fa-vk"></i>
                                 </a>
-                                <a class="block-social">
+                                <a class="block-social" href="<?php echo get_option('insta_link'); ?>">
                                     <i class="fa fa-instagram"></i>
                                 </a>
-                                <a class="block-social">
+                                <a class="block-social" href="<?php echo get_option('youtube_link'); ?>">
                                     <i class="fa fa-youtube"></i>
                                 </a>
                             </div>
 
-<<<<<<< HEAD
                             <p class="mail"><?php echo get_option("site_email"); ?> </p>
-=======
-                            <p class="mail">info@bavdance.ru</p>
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                         </div>
                         <div class="slogan">
                         </div>
                         <div class="pull-right">
-<<<<<<< HEAD
                             <p class="phone"><?php echo get_option("site_phone"); ?> </p>
-=======
-                            <p class="phone">8 (812) 981-67-68</p>
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                             <a href="#" class="btn btn-pink pull-right"  data-toggle="modal" data-target="#order-call">Заказать звонок</a>
                         </div>
                         <div class="modal fade about" id="order-call" tabindex="-1" role="dialog" aria-hidden="true">
@@ -62,7 +54,7 @@
                                                     <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                    <input placeholder="Удобное время для звонка" type="time" class="form-control" type="text"></input>
                                                 </div>
                                                 <input type="hidden" name="service_name" id="service-name"/>
                                                 <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
@@ -98,11 +90,7 @@
                                     $(this).text("Ошибка. Проверьте введенные данные.").fadeIn();
                                 });
                             }
-<<<<<<< HEAD
                             if (data.status == "email_not_sended") {
-=======
-                             if (data.status == "email_not_sended") {
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                                 $("#modal_info").fadeOut(function () {
                                     $(this).addClass("error-msg");
                                     $(this).text("Ошибка связи. Попробуйте позже.").fadeIn();
@@ -113,56 +101,43 @@
                             $("#modal_info").fadeOut(function () {
                                 $(this).addClass("error-msg");
                                 $(this).text("Ошибка связи. Обратитесь в техподдержку.").fadeIn();
-<<<<<<< HEAD
 
-=======
-                                
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                             });
                         }
 
                     }
                     );
                 });
-<<<<<<< HEAD
 
-=======
-              
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
             </script>
 
             <nav id="topNav" class="navbar navbar-default" role="navigation">
                 <div class="container-wd">
-<<<<<<< HEAD
-                    <?php if(is_front_page()) { ?>
-=======
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
-                    <div class="collapse navbar-collapse navbar-ex1-collapse">
-                        <ul class="nav navbar-nav pull-left">
-                            <li class=""><a href="" data-toggle="modal" data-target="#about-section">О нас</a></li>
-                            <li class=""><a href="#price">Цены и услуги</a></li>
-                            <li class=""><a href="#our-portfolio">Портфолио</a></li>
-                            <li class=""><a href="#reviews">Отзывы</a></li>
-                        </ul>
-                        <ul class="nav navbar-nav pull-right">
-                            <li class=""><a href="#music">Музыка</a></li>
-<<<<<<< HEAD
-                            <li class=""><a href="<?php echo get_bloginfo('url') . '/blog'; ?>">Блог</a></li>
-=======
-                            <li class=""><a href="blog.html">Блог</a></li>
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
-                            <li class=""><a href="#contact">Контакты</a></li>
-                            <li class="text-center individ"><a href="#coordinator">Свадебный<br/><span class="addition">распорядитель<span></a></li>
-                                            </ul>
-                                            </div>
-<<<<<<< HEAD
-                    <?php } ?>
+                    <?php if (is_front_page()) { ?>
+                        <div class="collapse navbar-collapse navbar-ex1-collapse">
+                            <ul class="nav navbar-nav pull-left">
+                                <li class=""><a href="" data-toggle="modal" data-target="#about-section">О нас</a></li>
+                                <li class=""><a href="#price">Цены и услуги</a></li>
+                                <li class=""><a href="#our-portfolio">Портфолио</a></li>
+                                <li class=""><a href="#reviews">Отзывы</a></li>
+                            </ul>
+                            <ul class="nav navbar-nav pull-right">
+                                <li class=""><a href="#music">Музыка</a></li>
+                                <li class=""><a href="<?php echo get_bloginfo('url') . '/blog'; ?>">Блог</a></li>
+                                <li class=""><a href="#contact">Контакты</a></li>
+                                <li class="text-center individ"><a href="#coordinator">Свадебный<br/><span class="addition">распорядитель<span></a></li>
+                                                </ul>
+                                                </div>
+                                            <?php } else {
+                                                ?>
+                                                <ul class="nav navbar-nav pull-left">
+                                                    <li class=""><a href="<?php echo get_bloginfo('url'); ?>">Главная</a></li>
+                                                </ul>
+                                                <?php
+                                            }
+                                            ?>
                                             <div class="logo">
                                                 <a href="<?php echo get_bloginfo('url'); ?>">
-=======
-                                            <div class="logo">
-                                                <a href="#">
->>>>>>> 4ee853a4ca913458d61781707283815487ac032c
                                                     <img src="<?php echo get_img_href('logo.png'); ?>" class="img-responsive" alt="Логотип" /> 
                                                 </a>
                                             </div>

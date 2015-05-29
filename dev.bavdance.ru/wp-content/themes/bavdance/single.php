@@ -17,6 +17,11 @@ get_header();
  <?php echo get_the_post_thumbnail($post->ID, 'full_size', array("class" => "img-responsive")); ?>                    
                 </div>
                 <?php echo $post->post_content; ?>
+                <p>
+                    <a href="<?php echo get_bloginfo('url') . '/blog'; ?>">
+                        Назад
+                    </a>
+                </p>
             </div>
         </div>
     </div>
