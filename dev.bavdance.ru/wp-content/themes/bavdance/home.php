@@ -6,9 +6,16 @@
 get_header();
 ?>
 <div class="container-wd">
-    <div class="video-main">
-        <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" class="img-responsive"/>
-    </div>
+    <?php if (empty(get_option("main_video"))) { ?>
+        <div class="video-main">
+
+            <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>" class="img-responsive"/>
+        </div>
+
+    <?php } else { ?>
+        <iframe id="main_video_iframe" src="<?php echo str_replace("watch?v=", "embed/", get_option('main_video')); ?>?autoplay=1&showinfo=0&controls=0" width="1000" height="666">
+        </iframe>
+    <?php } ?>
 </div>
 <div class="modal fade about" id="about-section" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -130,7 +137,7 @@ get_header();
                         'field' => 'slug',
                         'terms' => 'standartnyie'
                     )
-                ),s
+                ),
                     // Other query properties
                     )
             );
@@ -176,7 +183,7 @@ get_header();
                                                     <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                    <input  type="time" class="form-control" type="text"></input>
                                                 </div>
                                                 <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
                                                 <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
@@ -261,13 +268,6 @@ get_header();
                     'value' => 'yes',
                 )
             ),
-            'tax_query' => array(
-                array(
-                    'taxonomy' => 'service_tax',
-                    'field' => 'slug',
-                    'terms' => 'standartnyie'
-                )
-            ),
                 )
         );
 
@@ -288,7 +288,7 @@ get_header();
                                 <td><?php the_title() ?></td>
                                 <td><?php the_content(); ?></td>
                                 <td class="text-extra">
-                                    от <?php echo get_post_meta(get_the_ID(), 'old_price', true); ?> рублей
+                                    от <?php echo get_post_meta(get_the_ID(), 'new_price', true); ?> рублей
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -329,36 +329,69 @@ get_header();
             ?>
 
             <div class="section-content">
-                <?php while ($pf_videos->have_posts()): ?>
-                    <div class="row">
-                        <?php
-                        for ($i = 0; $i < 3; $i++) {
-                            $pf_videos->the_post();
-                            ?>
-                            <div class="col-xs-4">
-                                <div class="block">   
-                                    <div class="block-img">
-                                        <?php
-                                        $link = get_post_meta(get_the_ID(), 'video_link', true);
-                                        $link = str_replace("watch?v=", "embed/", $link);
-                                        ?>
-                                        <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>"  alt="" class="img-responsive"/>
-                                        <a class="circle" data-toggle="modal" data-target="#video-modal">
-                                            <i class="fa fa-video-camera"></i>
-                                        </a>
-                                        <form>
-                                            <input type="hidden" class="link_video" value="<?php echo $link; ?>"
-
-                                        </form>
-                                    </div>   
-                                    <p><?php the_content(); ?></p>                      
-                                </div>
-                            </div>
+                <?php
+                $i = 1;
+                while ($pf_videos->have_posts()): $pf_videos->the_post();
+                    ?>
+                    <?php if ($i == 1) { ?>
+                        <div class="row">
                         <?php } ?>
 
-                    </div>
+                        <div class="col-xs-4">
+                            <div class="block">   
+                                <div class="block-img">
+                                    <?php
+                                    $link = get_post_meta(get_the_ID(), 'video_link', true);
+                                    $link = str_replace("watch?v=", "embed/", $link);
+                                    ?>
+                                    <img src="<?php echo get_img_href("slideshow-2.jpg"); ?>"  alt="" class="img-responsive"/>
+                                    <a class="circle" data-toggle="modal"  data-backdrop="static" data-target="#video-modal-<?php echo get_the_ID(); ?>">
+                                        <i class="fa fa-video-camera"></i>
+                                    </a>
+                                    <input type="hidden" class="link_video" value="<?php echo $link; ?>"
 
-                <?php endwhile; ?>
+                                           </form>
+                                </div>   
+                                <div class="portfolio-item-content"><?php the_content(); ?></div>                     
+                            </div>
+                            <div class="modal fade about" id="video-modal-<?php echo get_the_ID(); ?>" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog " style="top:20px">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <iframe id="video_iframe_<?php echo get_the_ID(); ?>" src="#" width="100%" height="400">
+                                            </iframe>
+                                            <p class="description">
+                                                <?php the_content(); ?>
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <script type="text/javascript">
+                                jQuery("a.circle").click(function (e) {
+                                    var parent = jQuery(this).parent();
+                                    var link = parent.find(".link_video").val();
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", link);
+                                });
+                                jQuery(".close").on("click", function () {
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", "#");
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", link);
+                                });
+                            </script>
+                        </div>
+
+                        <?php if (($i % 3) == 0) { ?>
+                        </div>
+                        <div class="row">
+                        <?php }$i++; ?>
+
+                    <?php endwhile; ?>
+                </div>
 
 
             </div>
@@ -366,23 +399,7 @@ get_header();
         endif;
         ?>
     </div>
-    <div class="modal fade about" id="video-modal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog " style="top:20px">
 
-            <iframe id="video_iframe" src="#" width="100%" height="400">
-            </iframe>
-
-        </div>
-    </div>
-    <script type="text/javascript">
-        jQuery("a.circle").click(function (e) {
-            var parent = jQuery(this).parent();
-            var link = parent.find(".link_video").val();
-
-            console.log(link);
-            jQuery("#video_iframe").attr("src", link);
-        });
-    </script>
 </section>
 
 <?php
@@ -430,7 +447,9 @@ if ($recalls->have_posts()):
 
                     </div>
                     <ol class="carousel-indicators">
-                        <?php for ($k = 0; $k < $i; $k++) { ?>
+                        <?php
+                        for ($k = 0; $k < $i; $k++) {
+                            ?>
                             <li data-target="#carousel" data-slide-to="<?php echo $k; ?>" class="<?php echo ($k == 0) ? 'active' : ''; ?>"></li>
                         <?php } ?>
                     </ol>
@@ -453,7 +472,7 @@ if ($recalls->have_posts()):
 <section id="coordinator">
     <div class="container-wd">
         <div class="section-header">
-            <h2 class="text-center">Услуги свадебного распорядителя</h2>
+            <h2 class="text-center">Услуги свадебного координатора</h2>
         </div>
         <div class="section-content">
             <div class="media">
@@ -461,7 +480,7 @@ if ($recalls->have_posts()):
                     <img src="<?php echo get_img_href("shutterstock_44142997.jpg"); ?>" alt="" class="img-responsive"/>
                 </div>
                 <div class="media-body">
-                    <p class="chief-paragraph">Свадебный распорядитель, он же координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
+                    <p class="chief-paragraph">Свадебный координатор является главным по организации Вашей свадьбы. Каждая деталь будет учтена: транспорт подъедет вовремя, банкетный зал будет готов к приезду, а программа вечера четко пройдет по плану. Вам останется только наслаждаться торжеством и не думать о заботах на протяжении всей свадьбы!</p>
                 </div>
             </div>
 
@@ -497,7 +516,7 @@ if ($recalls->have_posts()):
                                 <div class="block-price-header">
                                     <?php the_title();
                                     ?>
-                                      <p class="text-no"></p>
+                                    <p class="text-no"></p>
                                     <?php
                                     $is_free = get_post_meta(get_the_ID(), 'is_free', true);
                                     if ($is_free == "yes") {
@@ -527,7 +546,7 @@ if ($recalls->have_posts()):
                                 </div>
                             </div>
                         </div>
-                      <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal fade about" id="<?php echo "to-order-" . get_the_ID(); ?>" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-dialog small">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -544,7 +563,8 @@ if ($recalls->have_posts()):
                                                     <input type="tel" required="true" class="form-control" name="phone" id="phone" placeholder="Введите телефон*"/>
                                                 </div>
                                                 <div class="form-group">
-                                                    <input type="date" required="true" onkeydown="return false" name="date" class="form-control" id="call-time" placeholder="Время звонка*"/>
+                                                    <input  type="time" class="form-control" type="text"></input>
+
                                                 </div>
                                                 <input type="hidden" name="service_name" value="<?php the_title(); ?>"/>
                                                 <button type="submit" id="callback-button" class="btn btn-pink-border center-block">Заказать</button>
@@ -612,198 +632,96 @@ if ($recalls->have_posts()):
         </div>
     </div>
 </section>
-<div class="modal fade about" id="to-order-coordinator" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog small">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="section-header">
-                    <h2 class="text-center t-acL">Заказать услугу свадебного распорядителя</h2>
-                    <form role="form">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="name" placeholder="Введите имя*"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="phone" placeholder="Введите телефон*"/>
-                        </div>
-                        <div class="form-group">
-                            <textarea class="form-control" placeholder="Комментарий" rows="5"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-pink-border center-block">Заказать</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 <section class="bg" id="music">
     <div class="container-wd">
         <div class="section-header">
             <h2 class="text-center">Музыка</h2>
         </div>
+        <?php
+        $albums = get_terms(array("albums"), array(
+            'orderby' => 'count',
+            'hide_empty' => 0
+        ));
+        ?>
+
         <div class="section-content">
             <div class="panel-group" id="accordion">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseOne">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Латиноамериканская музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseOne" class="panel-collapse collapse in">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                <?php foreach ($albums as $album):
+                    ?>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" href="#collapseOne">
+                                    <div class="img">
+                                        <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
+                                    </div>
+                                    <span><?php echo $album->name; ?></span>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseOne" class="panel-collapse collapse in">
+                            <?php
+                            $args = array(
+                                'post_type' => 'attachment',
+                                'post_mime_type' => 'audio',
+                                'numberposts' => -1,
+                                'post_status' => "published",
+                                'post_parent' => null, // any parent
+                                'tax_query' => array(
+                                    array(
+                                        'taxonomy' => 'albums',
+                                        'field' => 'slug',
+                                        'terms' => array($album->slug)
+                                    )
+                                ),
+                            );
+
+                            $music = new WP_Query($args);
+                            ?>
+                            <?php if ($music->have_posts()): ?>
+                                <?php while ($music->have_posts()): $music->the_post(); ?>
+                                    <div class="panel-body">
+                                        <label style="display: block;"><?php the_title(); ?></label>
+                                        <audio style="width:800px" controls>
+                                            <source src="<?php echo wp_get_attachment_url(get_the_ID()); ?>" type="audio/mp3">
+                                            Ваш браузер не поддерживает воспроизведение аудио
+                                        </audio>
+                                    </div>
+                                <?php endwhile; ?>
+                            <?php endif; ?>
                         </div>
                     </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseTwo">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Зарубежная лирическая музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseTwo" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapseThree">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Русская лирическая музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapseThree" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse4">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Вальсы</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse4" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse5">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Танго</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse5" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse6">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Танец с папой</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse6" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse7">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Зажигательная музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse7" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse8">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Музыка из фильмов</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse8" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#collapse9">
-                                <div class="img">
-                                    <img src="<?php echo get_img_href("vinyl-y-min.png"); ?>" class="center-block m-t-10" height="40" width="40" alt=""/>
-                                </div>
-                                <span>Современная музыка</span>
-                            </a>
-                        </h4>
-                    </div>
-                    <div id="collapse9" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
+
         </div>
     </div>
+</div>
 </section>
 
 <!-- Здесь карта, высота 580px-->
-<script type="text/javascript" charset="utf-8" src="https://api-maps.yandex.ru/services/constructor/1.0/js/?sid=zeK-ItdS0JbuWyGjqf5mhEgBA4rgQ5Yl&height=580"></script>
+<div class="metro-overlay">
+    <ul>
+        <li>
+            <div class="metro_popup" style="">
+                <span class="mmp_point"></span>
+                <span class="mpp_name" href="">проспект Стачек</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        Ленинский проспект</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                    <li class="mpp_time"></li>
+                </ul>
+                <div class="cl">
+                </div>
+            </div>
+        </li>
+    </ul>
+    <img src="<?php echo get_img_href("metro.jpg"); ?>" />
+</div>
 <!--  -->
 <?php get_footer(); ?>

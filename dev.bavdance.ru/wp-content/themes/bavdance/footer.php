@@ -1,26 +1,27 @@
 <?php wp_footer(); ?>
 <section id="contact">
-    <div class="container">
+    <div class="container-wd">
         <div class="media">
             <div class="pull-left">
                 <div style="overflow: hidden;">
-                    <a class="block-social">
+                    <a class="block-social" href="<?php echo get_option('vk_link'); ?>">
                         <i class="fa fa-vk"></i>
                     </a>
-                    <a class="block-social">
+                    <a class="block-social" href="<?php echo get_option('insta_link'); ?>">
                         <i class="fa fa-instagram"></i>
                     </a>
-                    <a class="block-social">
+                    <a class="block-social" href="<?php echo get_option('youtube_link'); ?>">
                         <i class="fa fa-youtube"></i>
                     </a>
                 </div>
 
-                <p class="mail">info@bavdance.ru</p>
+                <p class="mail"><?php echo get_option("site_email"); ?> </p>
             </div>
             <div class="slogan blue">
             </div>
             <div class="pull-right">
-                <p class="phone">8 (812) 981-67-68</p>
+                <p class="phone"><?php echo get_option("site_phone"); ?> </p>
+                <p ><a href="#" class="btn btn-pink pull-right"  data-toggle="modal" data-target="#order-call">Заказать звонок</a></p>
             </div>
         </div>
     </div>
@@ -31,13 +32,15 @@
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
 
 <script type="text/javascript">
-    new WOW().init();
     jQuery(".service-order-button").click(function (e) {
-        console.log("Yes");
+
         var servicename = jQuery(this).find("input[name='service_name']");
         servicename = servicename[0];
         jQuery("#service-name").val(servicename.text);
     });
+</script>
+<script type="text/javascript">
+    $('.carousel').carousel();
 </script>
 
 

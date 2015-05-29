@@ -65,7 +65,7 @@ function create_service_post_type() {
         'name' => 'Дополнительная?'
     );
 
-    $is_free= array(
+    $is_free = array(
         'id' => "is_free",
         'name' => 'Бесплатная?'
     );
@@ -76,27 +76,25 @@ function create_service_post_type() {
 }
 
 add_action('init', 'create_taxonomy');
-function create_taxonomy(){
-	// заголовки
-	$labels = array(
-		'name'              => 'Категории',
-		'singular_name'     => 'Категория',
-		
-	); 
-	// параметры
-	$args = array(
-		'label'                 => '', // определяется параметром $labels->name
-		'labels'                => $labels,
-		'public'                => true,
-		'show_in_nav_menus'     => true, // равен аргументу public
-		'show_ui'               => true, // равен аргументу public
-		'show_tagcloud'         => true, // равен аргументу show_ui
-		'hierarchical'          => true,
-		
-	);
-	register_taxonomy('service_tax', array('service'), $args );
-}
 
+function create_taxonomy() {
+    // заголовки
+    $labels = array(
+        'name' => 'Категории',
+        'singular_name' => 'Категория',
+    );
+    // параметры
+    $args = array(
+        'label' => '', // определяется параметром $labels->name
+        'labels' => $labels,
+        'public' => true,
+        'show_in_nav_menus' => true, // равен аргументу public
+        'show_ui' => true, // равен аргументу public
+        'show_tagcloud' => true, // равен аргументу show_ui
+        'hierarchical' => true,
+    );
+    register_taxonomy('service_tax', array('service'), $args);
+}
 
 function create_video_post_type() {
     register_post_type('pf_video', array(
@@ -110,7 +108,7 @@ function create_video_post_type() {
     );
     $video_link = array(
         'id' => "video_link",
-        'name' => 'Ссылка на видео(youtube/vimeo и т.д.)'
+        'name' => 'Ссылка на видео(youtube)'
     );
     $pf_video_link_meta = new Talan_Metabox($video_link, array('pf_video'));
 }
@@ -126,18 +124,6 @@ function create_recall_post_type() {
         'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments')
             )
     );
-}
-
-function get_non_additional_service_content($id) {
-    $service = get_post($id);
-    $srv_content = $service->post_content;
-    $service_cont_array = split("|", $srv_content);
-    $srv_formatted = "<ul class='pseudo-table'>";
-    foreach ($service_cont_array as $str) {
-        $srv_formatted .= "<li>" . trim($str) . "</li>";
-    }
-    $srv_formatted .= "</ul>";
-    return $srv_formatted;
 }
 
 add_theme_support('post-thumbnails');
@@ -158,6 +144,9 @@ function baw_create_menu() {
 function register_mysettings() {
     //register our settings
     register_setting('baw-settings-group', 'vk_link');
+    register_setting('baw-settings-group', 'insta_link');
+    register_setting('baw-settings-group', 'youtube_link');
+    register_setting('baw-settings-group', 'main_video');
     register_setting('baw-settings-group', 'site_email');
     register_setting('baw-settings-group', 'site_phone');
 }
@@ -168,17 +157,32 @@ function baw_settings_page() {
         <h2>Опции</h2>
 
         <form method="post" action="options.php">
-    <?php settings_fields('baw-settings-group'); ?>
+            <?php settings_fields('baw-settings-group'); ?>
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row">Ссылка Вконтакте</th>
                     <td><input type="text" name="vk_link" value="<?php echo get_option('vk_link'); ?>" /></td>
                 </tr>
-                 <tr valign="top">
+                <tr valign="top">
+                    <th scope="row">Ссылка Instagram</th>
+                    <td><input type="text" name="insta_link" value="<?php echo get_option('insta_link'); ?>" /></td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Ссылка youtube</th>
+                    <td><input type="text" name="youtube_link" value="<?php echo get_option('youtube_link'); ?>" /></td>
+                </tr>
+
+                </tr>
+                <tr valign="top">
+                    <th scope="row">Ссылка на видео на главной странице</th>
+                    <td><input type="text" name="main_video" value="<?php echo get_option('main_video'); ?>" /></td>
+                </tr>
+
+                <tr valign="top">
                     <th scope="row">Почта</th>
                     <td><input type="email" name="site_email" value="<?php echo get_option('site_email'); ?>" /></td>
                 </tr>
-                  <tr valign="top">
+                <tr valign="top">
                     <th scope="row">Телефон</th>
                     <td><input type="phone" name="site_phone" value="<?php echo get_option('site_phone'); ?>" /></td>
                 </tr>
@@ -191,5 +195,35 @@ function baw_settings_page() {
 
         </form>
     </div>
-<?php } ?>
+    <?php
+}
 
+function register_album_tax() {
+    // заголовки
+    $labels = array(
+        'name' => 'Альбомы',
+        'singular_name' => 'Альбом',
+    );
+    // параметры
+    $args = array(
+        'label' => '', // определяется параметром $labels->name
+        'labels' => $labels,
+        'public' => true,
+        'show_in_nav_menus' => true, // равен аргументу public
+        'show_ui' => true, // равен аргументу public
+        'show_tagcloud' => true, // равен аргументу show_ui
+        'hierarchical' => true,
+    );
+    register_taxonomy('albums', array('attachment'), $args);
+}
+
+add_action('init', 'register_album_tax');
+
+
+
+add_action('after_setup_theme', 'baw_theme_setup');
+
+function baw_theme_setup() {
+
+    add_image_size('bav_size', 365, 180, true); // (cropped)
+}
