@@ -701,12 +701,79 @@ if ($recalls->have_posts()):
 </div>
 </section>
 
+<?php
+$partners = new WP_Query(
+        array(
+    'post_type' => 'partner',
+    'posts_per_page' => -1,
+    'orderby' => 'post_date',
+    'order' => 'ASC',
+        )
+);
+
+if ($partners->have_posts()):
+    ?>
+    <section class="bg" id="partners">
+        <div class="container-wd">
+            <div class="section-header">
+                <h2 class="text-center">Партнеры</h2>
+            </div>
+            <div class="section-content">
+
+                <div id="carousel-partners" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <?php
+                        $i = 0;
+                        while ($partners->have_posts()):$partners->the_post();
+                            ?>
+                            <div class="item <?php echo ($i == 0) ? 'active' : ''; ?> ">
+                                <div class="media">
+                                    <div class="media-img">
+                                        <a href="<?php echo get_post_meta(get_the_ID(), 'p_link', true); ?>">
+                                            <?php echo get_the_post_thumbnail(get_the_ID(), 'thumbnail', array("class" => "img-responsive")); ?>
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4><?php the_title(); ?></h4>
+                                    </div>  
+                                </div>
+                                <div class="carousel-caption">
+                                </div>
+                            </div>
+                            <?php
+                            $i++;
+                        endwhile;
+                        ?>
+
+                    </div>
+                    <ol class="carousel-indicators">
+                        <?php
+                        for ($k = 0; $k < $i; $k++) {
+                            ?>
+                            <li data-target="#carousel-partners" data-slide-to="<?php echo $k; ?>" class="<?php echo ($k == 0) ? 'active' : ''; ?>"></li>
+                        <?php } ?>
+                    </ol>
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="fa fa-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="fa fa-chevron-right"></span>
+                    </a>
+                </div>
+
+
+
+            </div>
+        </div>
+    </section>
+<?php endif; ?>
+
 <!-- Здесь карта, высота 580px-->
 <div class="metro-overlay">
     <ul>
-        <li>
+        <li class="mmp" id="len_prosp">
+            <span class="mmp_point"></span>
             <div class="metro_popup" style="">
-                <span class="mmp_point"></span>
                 <span class="mpp_name" href="">проспект Стачек</span>
                 <div class="mpp_description">
                 </div>
@@ -714,14 +781,322 @@ if ($recalls->have_posts()):
                     <li class="mpp_metro">
                         Ленинский проспект</li>
                     <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
-                    <li class="mpp_time"></li>
                 </ul>
-                <div class="cl">
+                <div class="cl fa fa-times">
                 </div>
             </div>
         </li>
+        <li class="mmp" id="kupchino">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Малая балканская площадь</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        Купчино</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="msk">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Московский проспект, Новоизмайловский проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        Московская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="tech_inst">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Улица подольская</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        Технологический институт</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="narvsk">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Улица Швецова</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Нарвская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+
+
+        <li class="mmp" id="prosvesh">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Проспект Энгельса</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Просвещения</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+
+        <li class="mmp" id="pioneer">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Светлановский Проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Пионерская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="grazd-prosp">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Светлановский Проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Гражданский проспект</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+
+        <li class="mmp" id="old-vilage">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Улица мебельная</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Cтарая деревня</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="komendant">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Богатырский проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Комендантский проспект</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="eliz">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">улица Ольги Берггольц </span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Елизаровская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="novocherk">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Новочеркасский проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Новочеркасская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="pushkin">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Подъездной переулок</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Пушкинская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="lig">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Лиговский проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Лиговский проспект</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="chkal">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Чкаловский проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Чкаловская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="vasil">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">8-ая линия</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Василеостровская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="chern">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href="">Литейный проспект</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Чернышевская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="sport">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href=""> улица Большая пушкарская</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Спортивная</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="admir">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href=""> улица Большая морская</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Адмиралтейская</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
+        <li class="mmp" id="sad">
+            <span class="mmp_point"></span>
+            <div class="metro_popup" style="">
+                <span class="mpp_name" href=""> улица Ефимова</span>
+                <div class="mpp_description">
+                </div>
+                <ul class="mpp_additional">
+                    <li class="mpp_metro">
+                        М. Садовая</li>
+                    <li class="mpp_phone"><?php echo get_option("site_phone"); ?></li>
+                </ul>
+                <div class="cl fa fa-times">
+                </div>
+            </div>
+        </li>   
     </ul>
     <img src="<?php echo get_img_href("metro.jpg"); ?>" />
+    <script type="text/javascript">
+        jQuery(".mmp_point").click(function (e) {
+            var parent = jQuery(this).parent();
+            var popup = parent.find(".metro_popup");
+            popup = popup[0];
+            jQuery(popup).css('display', 'block');
+            jQuery(popup).css('z-index', '990');
+            jQuery(this).css('z-index', '999');
+
+        });
+        jQuery(".cl").click(function (e) {
+            var popup = jQuery(this).parent();
+
+            jQuery(popup).css('display', 'none');
+            jQuery(popup).css('z-index', '4');
+            var point = popup.parent().find(".mmp_point");
+            point = point[0];
+            jQuery(point).css('z-index', '99');
+        })
+    </script>
 </div>
 <!--  -->
 <?php get_footer(); ?>
