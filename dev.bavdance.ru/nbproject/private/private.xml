@@ -3,14 +3,6 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/home/igor/localhost/dev.bavdance.ru/wp-config.php</file>
-            <file>file:/home/igor/localhost/dev.bavdance.ru/wp-content/themes/bavdance/functions.php</file>
-            <file>file:/home/igor/localhost/dev.bavdance.ru/wp-content/themes/bavdance/footer.php</file>
-            <file>file:/home/igor/localhost/dev.bavdance.ru/wp-content/themes/bavdance/header.php</file>
-            <file>file:/home/igor/localhost/dev.bavdance.ru/wp-content/themes/bavdance/index.html</file>
-            <file>file:/home/igor/localhost/dev.bavdance.ru/wp-content/themes/bavdance/home.php</file>
-=======
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/wp-config.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/comments-popup.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/header.php</file>
@@ -20,16 +12,16 @@
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-config-old.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/single.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/footer.php</file>
+            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/css/style.css</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-config.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/error.log</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/index.html</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/404.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/home.php</file>
-            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/Новый%20файл</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/404.html</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/comments.php</file>
             <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/functions.php</file>
->>>>>>> a1e87226dcec84f84bb7894c7cfe1a5bc2e33511
+            <file>file:/Applications/MAMP/htdocs/repo/CodeRepo/dev.bavdance.ru/wp-content/themes/bavdance/css/main.css</file>
         </group>
     </open-files>
 </project-private>

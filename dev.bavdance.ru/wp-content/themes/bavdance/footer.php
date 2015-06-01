@@ -27,20 +27,27 @@
     </div>
 </section>
 </div>
-<div id="scroller"></div>
+<div id="scroller" class="fa fa-arrow-up fa-3x"></div>
 <!-- /container -->        
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
 
 <script type="text/javascript">
-    jQuery(".service-order-button").click(function (e) {
-
-        var servicename = jQuery(this).find("input[name='service_name']");
-        servicename = servicename[0];
-        jQuery("#service-name").val(servicename.text);
-    });
-</script>
-<script type="text/javascript">
     $('.carousel').carousel();
+    $(document).ready(function(){   
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 0) {
+            $('#scroller').fadeIn();
+        } else {
+            $('#scroller').fadeOut();
+        }
+    });
+    $('#scroller').click(function () {
+        $('body,html').animate({
+            scrollTop: 0
+        }, 400);
+        return false;
+    });
+});
 </script>
 
 

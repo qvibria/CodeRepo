@@ -39,6 +39,26 @@ function get_img_href($img) {
 add_action('init', 'create_service_post_type');
 add_action('init', 'create_video_post_type');
 add_action('init', 'create_recall_post_type');
+add_action('init', 'create_partners_post_type');
+
+function create_partners_post_type() {
+    register_post_type('partner', array(
+        'labels' => array(
+            'name' => "Партнеры",
+            'singular_name' => "Партнер"
+        ),
+        'public' => true,
+        'has_archive' => true,
+        'supports' => array('title',  'thumbnail')
+            )
+    );
+    $p_link = array(
+        'id' => "p_link",
+        'name' => 'Ссылка'
+    );
+     $p_link_meta = new Talan_Metabox($p_link, array('partner'));
+    
+}
 
 function create_service_post_type() {
     register_post_type('service', array(

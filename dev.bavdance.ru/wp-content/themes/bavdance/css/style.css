@@ -6691,7 +6691,6 @@ form .btn {
 }
 #contact .phone {
     color: #ffffff;
-    margin-top: 30px;
 }
 .carousel-control {
     text-shadow: none;
@@ -6822,9 +6821,20 @@ form .btn {
     display: block;
     opacity: 0.3;
 }
+.metro-overlay ul{
+    width: 931px;
+    margin: auto;
+    position: relative;
+    display: block;
+}
+.metro-overlay ul li {
+    list-style: none;
+    position:absolute;
+}
 .metro_popup{
+    display:none;
     background: #2e2e2e;
-    width: auto;
+    width: 400px;
     position: absolute;
     z-index: 2;
     padding: 10px 20px 10px 40px;
@@ -6832,6 +6842,12 @@ form .btn {
     -moz-border-radius: 10px;
     border-radius: 10px;
     box-shadow: 0 3px 5px #333;
+}
+.metro_popup .mpp_additional{
+    position: initial;
+}
+.metro_popup .mpp_additional li{
+    position: relative;
 }
 .mmp_point{
     position: absolute;
@@ -6841,7 +6857,101 @@ form .btn {
     background: url(../images/metro_marker.png);
     left: 8px;
     top: 8px;
+    z-index: 99;
 }
 .mpp_name{
     color:#4cd6d5;
+    margin: 10px;
+}
+
+#len_prosp{
+    top: 885px;
+    left: 145px;
+
+}
+#kupchino{
+    top: 917px;
+    left: 312px;
+}
+#msk{
+    top: 852px;
+    left: 311px;
+}
+
+#tech_inst{
+     left: 309px;
+  top: 656px;
+}
+#narvsk{
+      left: 197px;
+  top: 769px;
+}
+#pioneer{
+    top: 221px;
+    left: 311px;
+}
+
+#prosvesh{
+    top: 124px;
+    left: 312px;
+}
+#grazd-prosp{
+    top: 91px;
+    left: 474px;
+}
+#old-vilage{
+    top: 190px;
+    left: 146px;
+}
+#komendant{
+    top: 155px;
+    left: 146px;
+}
+#eliz{
+    top: 719px;
+    left: 659px;
+}
+#novocherk{
+    top: 574px;
+    left: 773px;
+
+}
+#pushkin{
+    top: 574px;
+    left: 392px;
+}
+#admir{
+    top: 428px;
+    left: 249px;
+
+}
+#sad{
+    top: 492px;
+    left: 312px;
+}
+#sport{
+    top: 288px;
+    left: 146px;
+}
+#chern{
+    top: 320px;
+    left: 475px;
+}
+#vasil{
+    top: 386px;
+    left: 106px;
+}
+#chkal{
+    top: 254px;
+    left: 146px;
+}
+#lig{
+    top: 492px;
+    left: 566px;
+}
+
+.cl {
+      position: absolute;
+  top: 5px;
+  right: 10px;
 }
