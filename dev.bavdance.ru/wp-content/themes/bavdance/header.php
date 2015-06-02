@@ -1,10 +1,13 @@
-<!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <?php wp_meta(); ?>
         <title><?php echo get_bloginfo("site_name"); ?></title>
         <?php wp_head(); ?>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+        <script src="<?php echo get_bloginfo("template_url") . "/js/";?>modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        <script src="<?php echo get_bloginfo("template_url") . "/js/"; ?>jquery-1.11.0.min.js"></script>
 
     </head>
     <body>

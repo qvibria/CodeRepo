@@ -300,13 +300,70 @@ get_header();
         ?>
     </div>
 </section>
-<section class="bg our-prod" id="our-products-section">
+<section class="bg" id="our-products-section">
     <div class="container-wd">
         <div class="section-header">
             <h2 class="text-center">Схема работы</h2>
         </div>
         <div class="section-content">
-            <img src="<?php echo get_img_href("sheme-work.png"); ?>" height="454" width="988" alt="Схема работы" class="center-block" />
+            <div class="row">
+                <div class="col-md-4 block sheme-block">
+                    <div class="sheme-content">
+                        <span class="num circle">
+                            <i>1</i>
+                        </span>
+                        <img src="<?php echo get_img_href('sheme-work-1.png'); ?>" alt="Схема работы" class="" />
+                    </div>
+                    <p>Вы оставляете заявку</p>
+                </div>
+                <div class="col-md-4 block sheme-block">
+                    <div class="sheme-content">
+                        <span class="num circle">
+                            <i>2</i>
+                        </span>
+                        <img src="<?php echo get_img_href('sheme-work-2.png'); ?>" alt="Схема работы" class="" />
+                    </div>
+                    <p>Мы подбираем для Вас стиль танца,<br/>музыку и зал</p>
+                </div>
+                <div class="col-md-4 block sheme-block">
+                    <div class="sheme-content">
+                        <span class="num circle">
+                            <i>3</i>
+                        </span>
+                        <img src="<?php echo get_img_href('sheme-work-3.png'); ?>" alt="Схема работы" class="" />
+                    </div>
+                    <p>Мы обучаем Вас танцу</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 block sheme-block">
+                    <div class="sheme-content">
+                        <span class="num circle">
+                            <i>4</i>
+                        </span>
+                        <img src="<?php echo get_img_href('sheme-work-6.png'); ?>" alt="Схема работы" class="" />
+                    </div>
+                    <p>Мы предоставляем видеоматериалы<br/>с каждого урока</p>
+                </div>
+                <div class="col-md-4 block sheme-block">
+                    <div class="sheme-content">
+                        <span class="num circle">
+                            <i>5</i>
+                        </span>
+                        <img src="<?php echo get_img_href('sheme-work-5.png'); ?>" alt="Схема работы" class="" />
+                    </div>
+                    <p>Мы проводим генеральную репетицию<br/>на свадебной площадке (по возможности)</p>
+                </div>
+                <div class="col-md-4 block sheme-block">
+                    <div class="sheme-content">
+                        <span class="num circle">
+                            <i>6</i>
+                        </span>
+                        <img src="<?php echo get_img_href('sheme-work-4.png'); ?>" alt="Схема работы" class="" />
+                    </div>
+                    <p>Вы радуете гостей танцем</p>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -358,12 +415,12 @@ get_header();
                                 <div class="modal-dialog " style="top:20px">
                                     <div class="modal-content">
                                         <div class="modal-header">
+                                            <?php the_title(); ?>
                                             <button  class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                         </div>
 
-                                        <div class="modal-body">
-                                            <iframe id="video_iframe_<?php echo get_the_ID(); ?>" src="#" width="100%" height="400">
-                                            </iframe>
+                                        <div class="modal-body" >
+                                            <div id="video_iframe_<?php echo get_the_ID(); ?>"></div>
                                             <p class="description">
                                                 <?php the_content(); ?>
                                             </p>
@@ -376,11 +433,10 @@ get_header();
                                 jQuery("a.circle").click(function (e) {
                                     var parent = jQuery(this).parent();
                                     var link = parent.find(".link_video").val();
-                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", link);
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").html(" <iframe src='"+link+"' width='100%' height='400'></iframe>");
                                 });
                                 jQuery(".close").on("click", function () {
-                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", "#");
-                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").attr("src", link);
+                                    jQuery("#video_iframe_<?php echo get_the_ID(); ?>").html("");
                                 });
                             </script>
                         </div>
