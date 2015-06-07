@@ -20,11 +20,11 @@ class IM_Enqueue {
         $styles_dir = get_template_directory() . "/css/";
         $scripts = scandir($scripts_dir);
         $styles = scandir($styles_dir);
-        foreach ($scripts as $script) {
-            wp_enqueue_script("script_$script", $this->scripts_folder . $script);
-        }
+
+     
         foreach ($styles as $style) {
-            wp_enqueue_style("style_$style", $this->style_folder . $style);
+            if ($style != "." && $style != "..")
+                wp_enqueue_style("style_$style", $this->style_folder . $style);
         }
     }
 
@@ -49,15 +49,14 @@ function create_partners_post_type() {
         ),
         'public' => true,
         'has_archive' => true,
-        'supports' => array('title',  'thumbnail')
+        'supports' => array('title', 'thumbnail')
             )
     );
     $p_link = array(
         'id' => "p_link",
         'name' => 'Ссылка'
     );
-     $p_link_meta = new Talan_Metabox($p_link, array('partner'));
-    
+    $p_link_meta = new Talan_Metabox($p_link, array('partner'));
 }
 
 function create_service_post_type() {

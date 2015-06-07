@@ -29,29 +29,32 @@ get_header();
                 while ($posts->have_posts()): $posts->the_post();
                     if ($i == 1)
                         echo "<div class=\"row\">";
-                    
                     ?>
 
-                    <div class="col-sm-4">
+                    <div class="col-sm-4 article">
                         <div class="block">   
                             <div class="block-img">
-        <?php echo get_the_post_thumbnail(get_the_ID(), 'bav_size', array("class" => "img-responsive")); ?>
+                                <?php echo get_the_post_thumbnail(get_the_ID(), 'bav_size', array("class" => "img-responsive")); ?>
                             </div>   
                             <h3><?php the_title(); ?></h3>
                             <span class="date">
                                 <i class="fa fa-calendar"></i>
-        <?php the_date(); ?>
+                                <?php the_date(); ?>
                             </span>
-                            <p><?php the_excerpt(); ?></p>
+                            <div class="article-content">
+                                <p><?php the_excerpt(); ?></p>
+                            </div>
                             <a href="<?php echo get_permalink(); ?>" class="text-extra link">Подробнее <i class="fa fa-angle-double-right"></i></a>                      
                         </div>
                     </div>
-        <?php if (($i % 3) == 0) {
-            echo "</div><div class=\"row\">";
-        } $i++;?>
+                    <?php
+                    if (($i % 3) == 0) {
+                        echo "</div><div class=\"row\">";
+                    } $i++;
+                    ?>
     <?php endwhile; ?>
             </div>
-                
+
             <?php
         else :
             echo "<label>У нас еще нет статей для вас.</label>";

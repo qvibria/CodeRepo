@@ -20,7 +20,7 @@
             <div class="slogan blue">
             </div>
             <div class="pull-right">
-                <p class="phone"><?php echo get_option("site_phone"); ?> </p>
+                <p class="phone" style="margin-top:0"><?php echo get_option("site_phone"); ?> </p>
                 <p ><a href="#" class="btn btn-pink pull-right"  data-toggle="modal" data-target="#order-call">Заказать звонок</a></p>
             </div>
         </div>
@@ -31,23 +31,31 @@
 <!-- /container -->        
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
 
+
+<script src="<?php echo get_bloginfo("template_url") . "/js/"; ?>bootstrap.min.js"></script>
+
+<script src="<?php echo get_bloginfo("template_url") . "/js/"; ?>jquery.localscroll.min.js"></script>
+<script src="<?php echo get_bloginfo("template_url") . "/js/"; ?>jquery.scrollTo-1.4.3.1.js"></script>
+
+<script src="<?php echo get_bloginfo("template_url") . "/js/"; ?>main.js"></script>
+
 <script type="text/javascript">
     $('.carousel').carousel();
-    $(document).ready(function(){   
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 0) {
-            $('#scroller').fadeIn();
-        } else {
-            $('#scroller').fadeOut();
-        }
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 0) {
+                $('#scroller').fadeIn();
+            } else {
+                $('#scroller').fadeOut();
+            }
+        });
+        $('#scroller').click(function () {
+            $('body,html').animate({
+                scrollTop: 0
+            }, 400);
+            return false;
+        });
     });
-    $('#scroller').click(function () {
-        $('body,html').animate({
-            scrollTop: 0
-        }, 400);
-        return false;
-    });
-});
 </script>
 
 
