@@ -1,0 +1,24 @@
+package ru.imilienko.dipmon.userstory;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
+import javax.persistence.*;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.UUID;
+
+@Entity
+@Cacheable
+@Table(name = "sprint", schema = "sprint")
+@XmlRootElement
+@CopyDescriptor(filter = DefaultCopyFilters.class)
+public class Sprint extends UserStoryHolder {
+
+    @Column(name = "dateStart")
+    private Date dateStart;
+    
+    @Column(name = "dateEnd")
+    private Date dateEnd;
+    	
+	/*...*/
+}
