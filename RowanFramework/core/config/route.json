@@ -1,0 +1,6 @@
+{
+    "routes": {
+        "/gogo": ["GogoController", "indexAction"],
+        "/gogo/world": ["GogoController", "worldAction" ]
+    }
+}
